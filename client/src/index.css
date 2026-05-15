@@ -4860,3 +4860,256 @@ body.home-page .home-dashboard-analytics .platform-chart-card h3 {
     gap: 0.5rem;
   }
 }
+
+/* --- Responsive: all pages --- */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.home-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #e7dccf;
+  border-radius: 12px;
+  background: #fffdf9;
+  color: #1a0d07;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.home-nav-toggle:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+.home-nav-mobile {
+  display: none;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem 20px 1rem;
+  border-bottom: 1px solid #e7dccf;
+  background: rgba(251, 246, 238, 0.98);
+  backdrop-filter: blur(12px);
+}
+
+.home-nav-mobile.is-open {
+  display: flex;
+}
+
+.home-nav-mobile a {
+  display: block;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #5c534c;
+}
+
+.home-nav-mobile a.active,
+.home-nav-mobile a:hover {
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+}
+
+.home-cta--mobile {
+  margin-top: 0.35rem;
+  justify-content: center;
+  width: 100%;
+}
+
+body.home-nav-menu-open {
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .home-nav-toggle {
+    display: inline-flex;
+  }
+
+  .home-cta--desktop {
+    display: none;
+  }
+
+  .home-nav-inner {
+    gap: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-page,
+  .platform-page.app-page {
+    width: 100%;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    box-sizing: border-box;
+  }
+
+  .home-app-main {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .challenge-body {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .challenge-hero-actions,
+  .challenge-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .challenge-hero-actions .btn,
+  .challenge-cta-actions .btn,
+  .challenge-btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .platform-hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .platform-page .platform-filter-row select,
+  .platform-page .platform-filter-row .search-wrap,
+  .platform-page .platform-invest-cta {
+    flex: 1 1 100%;
+    min-width: 0;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .platform-lower-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .platform-lower-head--dash,
+  .platform-lower-head--chat,
+  .platform-lower-block,
+  .platform-lower-block--chat {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .platform-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .map-card .map-container {
+    height: min(360px, 55vh);
+  }
+
+  .app-page-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .app-page-hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .app-source-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intake-submit-top {
+    flex-direction: column;
+  }
+
+  .intake-submit-schools {
+    max-width: none;
+    justify-content: flex-start;
+  }
+
+  .intake-match-funding {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #ebe3d8;
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .home-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-footer-links {
+    flex-wrap: wrap;
+    gap: 12px 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .platform-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .platform-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .challenge-stat-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .challenge-stat-strip li {
+    border-right: none !important;
+    border-bottom: 1px solid #ebe3d8;
+  }
+
+  .challenge-stat-strip li:last-child {
+    border-bottom: none;
+  }
+
+  .score-breakdown-row {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "label"
+      "track"
+      "value";
+    gap: 0.35rem;
+  }
+
+  .score-breakdown-value {
+    justify-self: start;
+  }
+
+  .home-brand-sub {
+    display: none;
+  }
+
+  .home-section {
+    padding: 40px 0;
+  }
+
+  .intake-page {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+
+  .intake-submit-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .intake-submit-divider {
+    display: none;
+  }
+}
