@@ -1,0 +1,10 @@
+# LALens frontend (Vite + React Router). API runs separately — see README.
+[build]
+  base = "client"
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -74,6 +74,33 @@ Priority bands: **Urgent** (85–100), **High** (70–84), **Moderate** (50–69
 
 Planned official inputs: **LDOE**, **NCES EDGE**, **U.S. Census (ACS)**, **Louisiana Workforce Commission**, **BLS**. A scaffold for future ETL lives under **`/data-pipeline`** (`README.md`, `sources.json`, `schema.md`, `ingest_placeholder.js`).
 
+## Deploy (Vercel or Netlify)
+
+The **frontend** lives in `client/`. The **Express API** in `server/` does not run on static hosts unless you deploy it separately (Railway, Render, Fly.io, etc.).
+
+This repo includes:
+
+- **`vercel.json`** — build `client`, publish `client/dist`, SPA rewrites
+- **`netlify.toml`** — same; Netlify **Base directory** can stay empty (file sets `base = "client"`)
+
+### Vercel
+
+1. Import the GitHub repo (root = repository root, not `client`).
+2. Redeploy after push. Vercel reads `vercel.json` automatically.
+3. Optional: add `GROQ_API_KEY` only after the API is hosted somewhere reachable.
+
+### Netlify
+
+1. **Site settings → Build & deploy → Build settings**
+   - If `netlify.toml` is detected, leave defaults (base `client`, publish `dist`).
+   - If not detected: **Base directory** `client`, **Build command** `npm run build`, **Publish directory** `client/dist`.
+2. Clear cache and **Trigger deploy**.
+
+### After deploy
+
+- Home (`/`) and routes like `/platform` should load (React Router).
+- **Chat and `/api/*`** need a deployed backend or will fall back to client-side data only where implemented.
+
 ## Limitations
 
 - Sample data and demo narratives are **not** official LDOE, LWC, or statewide calculations.  
