@@ -13,6 +13,8 @@
   --green: #6ee7b7;
   --amber: #fdba74;
   --red: #fb7185;
+  --app-gradient: linear-gradient(105deg, #7c3aed 0%, #db4fb7 55%, #f97316 100%);
+  --app-gradient-soft: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(219, 79, 183, 0.08) 50%, rgba(249, 115, 22, 0.06) 100%);
 }
 
 * { box-sizing: border-box; }
@@ -1559,15 +1561,18 @@ body.home-page select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
   padding: 0.85rem 1.6rem;
   border-radius: 999px;
   font-weight: 600;
   font-size: 1rem;
   color: #fff;
   text-decoration: none;
-  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-  box-shadow: 0 10px 32px rgba(124, 58, 237, 0.3);
+  background: var(--app-gradient);
+  box-shadow: 0 10px 32px rgba(219, 79, 183, 0.28);
   border: none;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -2058,9 +2063,22 @@ body.home-page select {
   margin-bottom: 2rem;
 }
 .challenge-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.45rem !important;
+  padding: 0.75rem 1.35rem !important;
+  color: #fff !important;
+  background: var(--app-gradient) !important;
+  border: none !important;
+  box-shadow: 0 10px 28px rgba(219, 79, 183, 0.32) !important;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+}
+
+.challenge-btn-primary svg {
+  display: block;
+  flex-shrink: 0;
 }
 .challenge-stat-strip {
   position: relative;
@@ -4801,12 +4819,6 @@ body.home-page .home-dashboard-analytics .platform-chart-card h3 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-.challenge-btn-primary {
-  background: var(--app-gradient) !important;
-  border: none !important;
-  box-shadow: 0 10px 28px rgba(219, 79, 183, 0.32) !important;
 }
 
 @media (max-width: 900px) {
