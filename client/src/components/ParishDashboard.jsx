@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CircleAlert, Lightbulb, Handshake, MapPin, ListChecks, ArrowRight } from "lucide-react";
 import { explainScoreDrivers } from "../utils/scoring";
+import ScoreBreakdown from "./ScoreBreakdown";
 
 function ChartEmptyState({ title }) {
   return (
@@ -144,26 +145,7 @@ function ParishDashboard({ parish }) {
         </article>
       </div>
 
-      <article className="card">
-        <p className="section-label">Score Breakdown</p>
-        <div className="score-bars">
-          {[
-            ["Student Need", parish.studentNeedScore],
-            ["Enrollment Pressure", parish.enrollmentPressureScore],
-            ["Workforce Gap", parish.workforceGapScore],
-            ["Pathway Access", parish.pathwayAccessGapScore],
-            ["Feasibility", parish.feasibilityScore]
-          ].map(([label, val]) => (
-            <div className="score-row" key={label}>
-              <span className="tiny">{label}</span>
-              <div className="track">
-                <div className="fill" style={{ width: `${val}%` }} />
-              </div>
-              <span className="tiny">{val}</span>
-            </div>
-          ))}
-        </div>
-      </article>
+      <ScoreBreakdown parish={parish} />
 
       <div className="chart-grid">
         <article className="card">

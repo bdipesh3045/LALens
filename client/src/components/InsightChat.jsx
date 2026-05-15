@@ -1,19 +1,26 @@
-import { useState } from "react";
-import { SendHorizontal, LoaderCircle, ShieldCheck } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { SendHorizontal, LoaderCircle, ShieldCheck, Bot, User } from "lucide-react";
 import BrandLogo from "./BrandLogo";
 
 const suggested = [
-  "Which 5 parishes need a new vocational pathway most urgently?",
-  "Where do healthcare workforce gaps overlap with low proficiency?",
-  "Why is this parish ranked as urgent?",
-  "What intervention would create the strongest near-term impact?",
-  "What data would improve confidence in this recommendation?"
+  "Top parishes for a new vocational pathway",
+  "Healthcare workforce gaps vs proficiency",
+  "Why this parish ranks as urgent",
+  "Strongest near-term intervention",
+  "Data that would improve this recommendation"
 ];
 
 function InsightChat({ selectedParishId }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([{ role: "assistant", text: "Ask a plain-English question to receive an evidence-based recommendation." }]);
+  const [messages, setMessages] = useState([]);
+  const threadRef = useRef(null);
+
+  useEffect(() => {
+    const el = threadRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [messages, loading]);
 
   const send = async (text) => {
     const message = text || input.trim();
@@ -54,48 +61,136 @@ function InsightChat({ selectedParishId }) {
         }
       ]);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", text: "I could not reach the backend endpoint. Please verify the server is running.", meta: "Low confidence" }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text: "I could not reach the backend endpoint. Please verify the server is running.",
+          meta: "Low confidence"
+        }
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
+  const threadEmpty = messages.length === 0 && !loading;
+
   return (
-    <section className="card chat-card">
-      <div className="section-head">
-        <div>
-          <p className="section-label">AI Insight Engine</p>
-          <div className="chat-title-row">
-            <h3>Decision-support assistant</h3>
-            <span className="prototype-badge">Grounded in current sample dataset</span>
+    <section className="card chat-card insight-chat">
+      <header className="insight-chat-head">
+        <div className="insight-chat-head-main">
+          <div className="insight-chat-head-top">
+            <span className="insight-chat-status" aria-hidden />
+            <span className="insight-chat-status-label">Ready</span>
+          </div>
+          <div className="chat-title-row insight-chat-title-row">
+            <h3>Insight assistant</h3>
+            <span className="prototype-badge insight-chat-badge">Sample metrics</span>
           </div>
         </div>
-        <span className="icon-badge">
-          <BrandLogo variant="badge" alt="" />
-        </span>
+        <div className="insight-chat-mark" aria-hidden>
+          <BrandLogo variant="feature" alt="" />
+        </div>
+      </header>
+
+      <div className="insight-chat-window">
+        <div
+          ref={threadRef}
+          className={`insight-chat-thread${threadEmpty ? " insight-chat-thread--empty" : ""}`}
+          aria-live="polite"
+          aria-relevant="additions"
+        >
+          {threadEmpty ? (
+            <div className="insight-chat-empty">
+              <p className="insight-chat-empty-title">New conversation</p>
+              <p className="insight-chat-empty-hint">Use quick replies below or type your own message.</p>
+            </div>
+          ) : null}
+          {messages.map((m, i) =>
+            m.role === "user" ? (
+              <div key={`${m.role}-${i}`} className="insight-msg insight-msg--user">
+                <div className="insight-msg-stack">
+                  <article className="insight-msg-bubble insight-msg-bubble--user">
+                    <p className="insight-bubble-text">{m.text}</p>
+                  </article>
+                </div>
+                <div className="insight-msg-avatar insight-msg-avatar--user" aria-hidden>
+                  <User size={15} strokeWidth={2} />
+                </div>
+              </div>
+            ) : (
+              <div key={`${m.role}-${i}`} className="insight-msg insight-msg--assistant">
+                <div className="insight-msg-avatar insight-msg-avatar--bot" aria-hidden>
+                  <Bot size={16} strokeWidth={2} />
+                </div>
+                <div className="insight-msg-stack">
+                  <article className="insight-msg-bubble insight-msg-bubble--assistant">
+                    <p className="insight-bubble-text">{m.text}</p>
+                    {m.meta ? <span className="insight-bubble-meta">{m.meta}</span> : null}
+                    {m.sources?.length ? (
+                      <span className="insight-bubble-meta">Sources: {m.sources.join(", ")}</span>
+                    ) : null}
+                  </article>
+                </div>
+              </div>
+            )
+          )}
+          {loading ? (
+            <div className="insight-msg insight-msg--assistant" key="typing">
+              <div className="insight-msg-avatar insight-msg-avatar--bot" aria-hidden>
+                <Bot size={16} strokeWidth={2} />
+              </div>
+              <div className="insight-msg-stack">
+                <article className="insight-msg-bubble insight-msg-bubble--assistant insight-msg-bubble--typing">
+                  <LoaderCircle size={15} className="spin insight-typing-icon" aria-hidden />
+                  <span className="insight-typing-label">Thinking…</span>
+                </article>
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="insight-chat-dock">
+          <p className="insight-dock-label">Quick replies</p>
+          <ul className="insight-chip-row">
+            {suggested.map((q) => (
+              <li key={q}>
+                <button type="button" className="insight-chip" onClick={() => send(q)} disabled={loading}>
+                  {q}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <form className="insight-composer" onSubmit={(e) => { e.preventDefault(); send(); }}>
+            <label htmlFor="chat-input" className="sr-only">
+              Message
+            </label>
+            <input
+              id="chat-input"
+              className="insight-composer-input"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Message…"
+              disabled={loading}
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              className="btn btn-primary insight-send-fab"
+              disabled={loading}
+              aria-label={loading ? "Sending" : "Send message"}
+            >
+              {loading ? <LoaderCircle size={18} className="spin" aria-hidden /> : <SendHorizontal size={18} aria-hidden />}
+            </button>
+          </form>
+        </div>
       </div>
-      <div className="chip-row">
-        {suggested.map((q) => <button key={q} className="chip" onClick={() => send(q)}>{q}</button>)}
-      </div>
-      <div className="chat-body">
-        {messages.map((m, i) => (
-          <article key={`${m.role}-${i}`} className={`bubble ${m.role}`}>
-            <p>{m.text}</p>
-            {m.meta ? <span className="tiny">{m.meta}</span> : null}
-            {m.sources?.length ? <span className="tiny">Sources: {m.sources.join(", ")}</span> : null}
-          </article>
-        ))}
-        {loading ? <article className="bubble assistant"><LoaderCircle size={14} className="spin" /> Generating response...</article> : null}
-      </div>
-      <form className="chat-input" onSubmit={(e) => { e.preventDefault(); send(); }}>
-        <label htmlFor="chat-input" className="sr-only">Ask a question</label>
-        <input id="chat-input" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask where to invest, what to build, and why..." />
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? <LoaderCircle size={15} className="spin" /> : <SendHorizontal size={15} />}
-          {loading ? "Analyzing" : "Send"}
-        </button>
-      </form>
-      <p className="tiny muted"><ShieldCheck size={12} /> Decision-support only, not a replacement for human judgment.</p>
+
+      <p className="insight-disclaimer">
+        <ShieldCheck size={14} strokeWidth={1.75} aria-hidden />
+        <span>Advisory only—confirm material decisions locally.</span>
+      </p>
     </section>
   );
 }
