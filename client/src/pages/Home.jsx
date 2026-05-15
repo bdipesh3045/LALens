@@ -60,7 +60,7 @@ function Home() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.12 }}
           >
-            Louisiana Opportunity Navigator is designed to combine education, workforce, and demographic signals into transparent recommendations for where to invest, what to build, and why. The prototype maps <strong>all 64 Louisiana parishes</strong> and demonstrates scoring with an initial <strong>{SAMPLE_METRIC_COUNT}-parish sample dataset</strong>—not statewide official releases for every parish.
+            LALens is designed to combine education, workforce, and demographic signals into transparent recommendations for where to invest, what to build, and why. The prototype maps <strong>all 64 Louisiana parishes</strong> and demonstrates scoring with an initial <strong>{SAMPLE_METRIC_COUNT}-parish sample dataset</strong>—not statewide official releases for every parish.
           </motion.p>
 
           <motion.div

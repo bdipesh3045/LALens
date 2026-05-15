@@ -17,7 +17,7 @@ function HomeNavbar() {
             <Compass size={20} strokeWidth={1.75} />
           </span>
           <span className="home-brand-text">
-            <span className="home-brand-title">Louisiana Opportunity Navigator</span>
+            <span className="home-brand-title">LALens</span>
             <span className="home-brand-sub">Education Intelligence Engine</span>
           </span>
         </Link>

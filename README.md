@@ -1,4 +1,4 @@
-# Louisiana Opportunity Navigator (LALens)
+# LALens
 
 Civic-tech prototype for the **Nexus DevDays EdTech Challenge**: a single place to explore **where** to invest in education pathways, **what** to build, and **why**—with transparent scoring, a parish map, dashboards, and an AI insight assistant.
 

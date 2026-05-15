@@ -1,4 +1,4 @@
-# Louisiana Opportunity Navigator — data pipeline
+# LALens — data pipeline
 
 This directory is a **scaffold** for future ingestion of official public datasets. The running app today uses **sample parish-level records** in `client/src/data/parishes.js`; nothing in this folder is executed by the web app automatically.
 
