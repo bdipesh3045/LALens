@@ -116,7 +116,24 @@ export async function generateInsight({ message, selectedParish, parishes, histo
     confidence = "Low";
   } else if (msg.includes("improve confidence")) {
     answer = `${catalogNote(total, metricN)} Confidence would improve with student-level longitudinal outcomes, implementation cost data, employer hiring outcomes, and comparable program evaluations for ${selectedParish?.name || "the parish of interest"}—none of which are in the catalog for pending parishes, and only partial for sample parishes.`;
+  } else if (
+    /\bwhere should we invest\b|\binvest first\b|\bwhere to invest\b/.test(msg)
+  ) {
+    const top3 = topByOpportunity(parishes, 3);
+    answer = `${catalogNote(total, metricN)} Within the current sample, prioritize parishes where student need and workforce gap are both elevated. ${top3.map((p) => p.name.replace(" Parish", "")).join(", ")} rise in the prototype because their score drivers combine academic need, pathway access gaps, and workforce alignment. This is a model estimate, not an official state ranking. Confidence: Medium within sample.`;
+    confidence = "Medium";
+    sources.push("Model estimate");
+  } else if (/\breal data\b|\bofficial data\b|\bis this real\b/.test(msg)) {
+    answer = `${catalogNote(total, metricN)} LALens combines public-source facts with prototype scoring. Some statewide indicators reference LDOE, Census, and Louisiana Workforce Commission public reporting. Parish scores and school matches are model estimates until full official datasets are connected in-product. Confidence: Medium.`;
+    confidence = "Medium";
+    sources.push("LDOE public reference", "Census public reference", "LWC public reference", "Model estimate");
+  } else if (selectedParish && !selectedParish.hasMetrics) {
+    answer = `${catalogNote(total, metricN)} ${selectedParish.name} is mapped, but detailed scoring is pending. To score it, LALens needs LDOE performance and enrollment files, Census ACS indicators, Louisiana Workforce Commission projections, NCES school geocodes, and a pathway inventory aligned to local demand. Confidence: Not Available for scoring.`;
+    confidence = "Not Available";
+  } else if (/\bexplain\b.*\b(score|opportunity)\b/.test(msg)) {
+    answer = `${catalogNote(total, metricN)} The Opportunity Score is a transparent weighted blend of five factors (student need, enrollment pressure, workforce gap, pathway access, feasibility), each scored 0–100. Current parish values are model estimates in the ${metricN}-parish sample unless a public-source field is explicitly connected. See Methodology for weights. Confidence: High for method description; Medium for parish values.`;
+    confidence = "High";
   }
 
-  return { answer, sources, confidence, provider: "rules" };
+  return { answer, sources: [...new Set(sources)], confidence, provider: "rules" };
 }

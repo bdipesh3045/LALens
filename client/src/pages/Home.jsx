@@ -12,6 +12,9 @@ import HomePlanningCard from "../components/HomePlanningCard";
 import HomeMetricCard from "../components/HomeMetricCard";
 import HomeChartsPreview from "../components/HomeChartsPreview";
 import HomeStepCards from "../components/HomeStepCards";
+import PlatformAnalytics from "../components/PlatformAnalytics";
+import RealityNote from "../components/RealityNote";
+import { problemMiniCards, productNarrative } from "../data/realityAnchors";
 
 function Home() {
   useEffect(() => {
@@ -51,6 +54,15 @@ function Home() {
             </span>
           </motion.h1>
 
+          <motion.p
+            className="home-hero-subhead"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.06 }}
+          >
+            LALens turns Louisiana education, workforce, and demographic signals into clear investment recommendations, showing where need and opportunity overlap.
+          </motion.p>
+
           <motion.div
             className="home-hero-stepper-wrap"
             initial={{ opacity: 0, y: 14 }}
@@ -62,10 +74,10 @@ function Home() {
 
           <section className="home-metrics-row home-hero-metrics" aria-label="Key metrics">
             {[
-              { value: String(homeStats.mapped), label: "Parishes mapped", accent: "lavender" },
-              { value: String(homeStats.sampleMetrics), label: "Sample metrics", accent: "orange" },
-              { value: "5", label: "Score factors", accent: "blue" },
-              { value: "1", label: "Decision model", accent: "green" }
+              { value: String(homeStats.mapped), label: "Parishes mapped", hint: "Public geography layer", accent: "lavender" },
+              { value: String(homeStats.sampleMetrics), label: "Scored examples", hint: "Prototype sample", accent: "orange" },
+              { value: "5", label: "Score factors", hint: "Transparent model", accent: "blue" },
+              { value: "1", label: "Decision workflow", hint: "Map to action", accent: "green" }
             ].map((card, i) => (
               <motion.div
                 key={card.label}
@@ -73,16 +85,47 @@ function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.07 + i * 0.05, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
-                <HomeMetricCard value={card.value} label={card.label} accent={card.accent} />
+                <HomeMetricCard value={card.value} label={card.label} hint={card.hint} accent={card.accent} />
               </motion.div>
             ))}
           </section>
+
+          <RealityNote compact />
+
+          <motion.div
+            className="home-dashboard-analytics"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.09, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <PlatformAnalytics />
+          </motion.div>
+
+          <motion.section
+            className="home-problem-section"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45 }}
+          >
+            <p className="home-kicker">THE PROBLEM</p>
+            <h2 className="home-section-title home-section-title-center">{productNarrative.problemTitle}</h2>
+            <p className="home-section-lead home-section-lead-center">{productNarrative.problemLead}</p>
+            <div className="home-problem-grid">
+              {problemMiniCards.map((card) => (
+                <article key={card.title} className="home-problem-card">
+                  <h3>{card.title}</h3>
+                  <p>{card.body}</p>
+                </article>
+              ))}
+            </div>
+          </motion.section>
 
           <motion.div
             className="home-hero-map-shell"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 26 }}
+            transition={{ delay: 0.12, type: "spring", stiffness: 260, damping: 26 }}
           >
             <HomeHeroMap />
           </motion.div>
@@ -108,6 +151,9 @@ function Home() {
           >
             <Link to="/platform" className="home-btn-primary">
               Explore the Platform
+            </Link>
+            <Link to="/invest" className="home-btn-secondary">
+              K-12 Investment Intake
             </Link>
             <Link to="/methodology" className="home-btn-secondary">
               View Methodology
@@ -200,8 +246,8 @@ function Home() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.45 }}
         >
-          <p className="home-kicker">THREE STEPS</p>
-          <h2 className="home-section-title home-section-title-center">One navigator for better education investment.</h2>
+          <p className="home-kicker">HOW IT WORKS</p>
+          <h2 className="home-section-title home-section-title-center">From statewide map to matched K-12 investment.</h2>
           <HomeStepCards />
         </motion.section>
 

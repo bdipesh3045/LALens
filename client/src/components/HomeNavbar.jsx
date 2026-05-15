@@ -4,6 +4,7 @@ import BrandLogo from "./BrandLogo";
 
 const links = [
   { to: "/platform", label: "Platform" },
+  { to: "/invest", label: "K-12 Intake" },
   { to: "/methodology", label: "Methodology" },
   { to: "/data-sources", label: "Data Sources" },
   { to: "/challenge", label: "Challenge" }

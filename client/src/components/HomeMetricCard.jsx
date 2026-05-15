@@ -1,4 +1,4 @@
-function HomeMetricCard({ icon: Icon, value, label, accent }) {
+function HomeMetricCard({ icon: Icon, value, label, hint, accent }) {
   return (
     <article className={`home-metric-card ${accent || ""}`}>
       {Icon ? (
@@ -8,6 +8,7 @@ function HomeMetricCard({ icon: Icon, value, label, accent }) {
       ) : null}
       <span className="home-metric-value">{value}</span>
       <span className="home-metric-label">{label}</span>
+      {hint ? <span className="home-metric-hint">{hint}</span> : null}
     </article>
   );
 }

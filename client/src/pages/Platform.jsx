@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, SlidersHorizontal, GraduationCap } from "lucide-react";
 import { getFilteredParishes } from "../utils/filters";
 import {
   parishes as localParishes,
@@ -12,7 +13,9 @@ import GapMap from "../components/GapMap";
 import ParishDashboard from "../components/ParishDashboard";
 import InsightChat from "../components/InsightChat";
 import BrandLogo from "../components/BrandLogo";
-
+import PlatformKpiStrip from "../components/PlatformKpiStrip";
+import ParishDetailPanel from "../components/ParishDetailPanel";
+import PriorityInvestmentTable from "../components/PriorityInvestmentTable";
 const initialFilters = { coverage: "All", priority: "All", region: "All", workforce: "All" };
 
 function Platform() {
@@ -55,8 +58,8 @@ function Platform() {
   );
 
   return (
-    <main className="container page-section">
-      <section className="card">
+    <main className="container page-section platform-page">
+      <section className="card platform-toolbar-card">
         <div className="section-head platform-section-head">
           <BrandLogo variant="nav" className="platform-section-logo" />
           <div>
@@ -79,8 +82,7 @@ function Platform() {
               </div>
             </div>
             <p className="tiny muted platform-subcopy">
-              Map shows all {TOTAL_LA_PARISH_COUNT} Louisiana parishes. Opportunity scores are currently available for{" "}
-              {SAMPLE_METRIC_COUNT} sample parishes in this prototype. {PENDING_PARISH_COUNT} parishes show geography only until data is integrated.
+              Map shows all {TOTAL_LA_PARISH_COUNT} Louisiana parishes. Scores currently use a {SAMPLE_METRIC_COUNT}-record sample model and can expand as official LDOE, Census, NCES, BLS, and LWC datasets are connected.
             </p>
           </div>
         </div>
@@ -116,37 +118,55 @@ function Platform() {
               <option key={x}>{x}</option>
             ))}
           </select>
+          <Link to="/invest" className="btn btn-primary platform-invest-cta">
+            <GraduationCap size={16} aria-hidden />
+            K-12 intake
+          </Link>
         </div>
       </section>
 
-      <section className="platform-grid-main">
-        <GapMap parishes={filtered.length ? filtered : parishes} selectedParishId={selectedParishId} onSelectParish={setSelectedParishId} />
-        <aside className="card top-list">
-          <p className="section-label">Top opportunities</p>
-          <h3 className="top-list-title">Sample metrics subset</h3>
-          <p className="tiny muted top-list-caption">
-            Rankings use Opportunity Scores only for the {SAMPLE_METRIC_COUNT} parishes with prototype metrics. Parishes on the map without metrics are excluded.
-          </p>
-          <ul>
-            {top.length === 0 ? (
-              <li className="top-list-empty tiny muted">No scored parishes match the current filters. Clear filters or choose &quot;All parishes&quot; to see rankings.</li>
-            ) : (
-              top.map((p, index) => (
-                <li key={p.id}>
-                  <button className={selectedParishId === p.id ? "active" : ""} onClick={() => setSelectedParishId(p.id)}>
-                    <span className="rank">{index + 1}</span>
-                    <span>
-                      {p.name}
-                      <small>{p.region}</small>
-                    </span>
-                    <span className="tiny">{p.opportunityScore}</span>
-                  </button>
-                </li>
-              ))
-            )}
-          </ul>
-        </aside>
+      <PlatformKpiStrip />
+
+      <section id="platform-map" className="platform-map-row">
+        <GapMap
+          parishes={filtered.length ? filtered : parishes}
+          selectedParishId={selectedParishId}
+          onSelectParish={setSelectedParishId}
+        />
+        <div className="platform-map-side">
+          <ParishDetailPanel parish={selectedParish} />
+          <aside className="card top-list platform-top-list">
+            <p className="section-label">Top opportunities</p>
+            <h3 className="top-list-title">By opportunity score</h3>
+            <ul>
+              {top.length === 0 ? (
+                <li className="top-list-empty tiny muted">No scored parishes match filters.</li>
+              ) : (
+                top.map((p, index) => (
+                  <li key={p.id}>
+                    <button type="button" className={selectedParishId === p.id ? "active" : ""} onClick={() => setSelectedParishId(p.id)}>
+                      <span className="rank">{index + 1}</span>
+                      <span>
+                        {p.name}
+                        <small>{p.region}</small>
+                      </span>
+                      <span className="tiny">{p.opportunityScore}</span>
+                    </button>
+                  </li>
+                ))
+              )}
+            </ul>
+          </aside>
+        </div>
       </section>
+
+      <PriorityInvestmentTable
+        parishList={parishes}
+        onSelectParish={(parishId) => {
+          setSelectedParishId(parishId);
+          document.getElementById("platform-map")?.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
 
       <ParishDashboard parish={selectedParish} />
       <InsightChat selectedParishId={selectedParishId} />

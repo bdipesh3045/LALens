@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Map, SlidersHorizontal, Route } from "lucide-react";
+import { Map, BarChart3, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 
 const steps = [
-  { num: "01", label: "Map the Gaps", icon: Map },
-  { num: "02", label: "Prioritize Investment", icon: SlidersHorizontal },
-  { num: "03", label: "Build Pathways", icon: Route }
+  { num: "01", label: "Explore parishes", icon: Map },
+  { num: "02", label: "Prioritize schools", icon: BarChart3 },
+  { num: "03", label: "Match investment", icon: GraduationCap }
 ];
 
 const STEP_MS = 2600;

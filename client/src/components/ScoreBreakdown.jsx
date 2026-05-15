@@ -1,6 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Users, LineChart, Briefcase, Waypoints, CircleCheck } from "lucide-react";
 import { DEFAULT_WEIGHTS } from "../utils/scoring";
+import { scoreFactorHelp } from "../data/realityAnchors";
+import SourceBadge from "./SourceBadge";
+import RealityNote from "./RealityNote";
 
 const FACTORS = [
   {
@@ -38,9 +41,20 @@ const FACTORS = [
     accent: "#16a34a",
     accentEnd: "#86efac"
   }
-].map((row) => ({
+];
+
+const FACTOR_HELP_KEYS = {
+  studentNeedScore: "studentNeed",
+  enrollmentPressureScore: "enrollmentPressure",
+  workforceGapScore: "workforceGap",
+  pathwayAccessGapScore: "pathwayAccess",
+  feasibilityScore: "feasibility"
+};
+
+const FACTORS_WITH_META = FACTORS.map((row) => ({
   ...row,
-  weightPct: Math.round((DEFAULT_WEIGHTS[row.key] ?? 0) * 100)
+  weightPct: Math.round((DEFAULT_WEIGHTS[row.key] ?? 0) * 100),
+  help: scoreFactorHelp[FACTOR_HELP_KEYS[row.key]] || ""
 }));
 
 function clampScore(n) {
@@ -60,9 +74,10 @@ export default function ScoreBreakdown({ parish }) {
         <p className="score-breakdown-lead">
           Each factor is scored 0–100. The headline Opportunity Score is a weighted blend using the percentages shown.
         </p>
+        <SourceBadge type="model" />
       </header>
       <ul className="score-breakdown-list" aria-label="Opportunity score factors">
-        {FACTORS.map((row, i) => {
+        {FACTORS_WITH_META.map((row, i) => {
           const val = clampScore(parish?.[row.key]);
           const { Icon } = row;
           const fillStyle = {
@@ -81,6 +96,7 @@ export default function ScoreBreakdown({ parish }) {
                 <div className="score-breakdown-text">
                   <span className="score-breakdown-label">{row.label}</span>
                   <span className="score-breakdown-weight">{row.weightPct}% of composite</span>
+                  <span className="score-breakdown-help tiny muted">{row.help}</span>
                 </div>
               </div>
               <div
@@ -110,6 +126,7 @@ export default function ScoreBreakdown({ parish }) {
           );
         })}
       </ul>
+      <RealityNote compact />
     </article>
   );
 }

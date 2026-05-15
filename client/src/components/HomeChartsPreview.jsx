@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import { parishes } from "../data/parishes";
 import BrandLogo from "./BrandLogo";
+import SourceBadge from "./SourceBadge";
 
 const chartColors = {
   purple: "#7C3AED",
@@ -81,14 +82,14 @@ function HomeChartsPreview() {
       <p className="home-kicker">PLATFORM PREVIEW</p>
       <h2 className="home-section-title">Decision intelligence, not another spreadsheet.</h2>
       <p className="home-section-lead">
-        See how student need, enrollment pressure, workforce demand, and pathway access combine into one transparent recommendation workflow.
+        This is how LALens turns source data into an investment brief—not just another chart wall.
       </p>
 
       <div className="home-analytics-grid">
         <article className="home-chart-card home-chart-card-wide">
           <div className="home-chart-title-row">
             <h3 className="home-chart-title">Opportunity Score by Parish</h3>
-            <span className="prototype-badge">Sample parish-level data</span>
+            <SourceBadge type="model" label="Model estimate" />
           </div>
           <p className="home-chart-note">Illustrative scores from the 12-parish prototype dataset.</p>
           <div className="home-chart-wrap" style={{ height: 220 }}>
@@ -122,7 +123,10 @@ function HomeChartsPreview() {
 
         <div className="home-analytics-stack">
           <article className="home-chart-card">
-            <h3 className="home-chart-title">Priority Mix</h3>
+            <div className="home-chart-title-row">
+              <h3 className="home-chart-title">Priority mix</h3>
+              <SourceBadge type="demo" label="12-parish sample" />
+            </div>
             <div className="home-chart-wrap" style={{ height: 280 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -150,7 +154,8 @@ function HomeChartsPreview() {
           <article className="home-chart-card home-ai-card">
             <div className="home-ai-card-title-row">
               <BrandLogo variant="feature" />
-              <h3 className="home-chart-title">AI Insight Preview</h3>
+              <h3 className="home-chart-title">AI insight preview</h3>
+              <SourceBadge type="model" label="Grounded assistant" />
             </div>
             <p className="home-ai-q">Where should we invest first?</p>
             <p className="home-ai-a">
@@ -160,7 +165,10 @@ function HomeChartsPreview() {
           </article>
 
           <article className="home-chart-card home-brief-card">
-            <h3 className="home-chart-title">Selected Parish Brief</h3>
+            <div className="home-chart-title-row">
+              <h3 className="home-chart-title">Selected parish brief</h3>
+              <SourceBadge type="demo" label="Example output" />
+            </div>
             <p className="home-brief-parish">{lead?.name}</p>
             <p className="home-brief-score">
               <span className="mono">Score</span> <strong>{lead?.opportunityScore}</strong>

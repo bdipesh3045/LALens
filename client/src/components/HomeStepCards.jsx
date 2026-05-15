@@ -3,20 +3,20 @@ import { motion } from "framer-motion";
 const cards = [
   {
     num: "01",
-    title: "Collect the signals",
-    body: "Public education, workforce, demographic, and geographic data are organized into one parish-level view.",
+    title: "Explore parishes",
+    body: "Map all 64 Louisiana parishes with statewide KPIs, opportunity scores, and a detail panel for workforce demand and local schools.",
     accent: "purple"
   },
   {
     num: "02",
-    title: "Calculate opportunity",
-    body: "A transparent scoring model compares student need, enrollment pressure, workforce gap, pathway access, and feasibility.",
+    title: "Prioritize schools",
+    body: "Rank institutions by workforce gap, poverty, and funding need—then drill into parish dashboards and score breakdowns.",
     accent: "orange"
   },
   {
     num: "03",
-    title: "Recommend action",
-    body: "Leaders receive a ranked investment brief with evidence, risks, confidence level, and potential partners.",
+    title: "Match investment",
+    body: "Use the K-12 intake wizard to align your role, budget, and focus area with real school matches and funding needs.",
     accent: "green"
   }
 ];

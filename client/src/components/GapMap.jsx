@@ -6,11 +6,11 @@ import LaMapBounds from "./LaMapBounds";
 
 function GapMap({ parishes, selectedParishId, onSelectParish }) {
   return (
-    <section className="card map-card">
-      <div className="section-head">
+    <section className="card map-card map-card--intel">
+      <div className="section-head map-card-head">
         <div>
-          <p className="section-label">Gap Map</p>
-          <h3>Opportunity zones by parish</h3>
+          <p className="section-label">Parish intelligence map</p>
+          <h3>Regional opportunity scores</h3>
           <p className="tiny muted" style={{ marginTop: "0.35rem" }}>
             Map shows all 64 Louisiana parishes. Opportunity scores are currently available for 12 sample parishes in this prototype.
           </p>
