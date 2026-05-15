@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Louisiana Department of Education",
+    "type": "education",
+    "expectedFormat": "CSV/XLSX",
+    "status": "planned",
+    "fieldsNeeded": ["school performance", "enrollment", "attendance", "graduation"]
+  },
+  {
+    "name": "NCES EDGE",
+    "type": "geography",
+    "expectedFormat": "CSV/SHP",
+    "status": "planned",
+    "fieldsNeeded": ["school geocodes", "district boundaries"]
+  },
+  {
+    "name": "U.S. Census Bureau ACS",
+    "type": "demographics",
+    "expectedFormat": "API/CSV",
+    "status": "planned",
+    "fieldsNeeded": ["poverty rate", "population", "selected socioeconomic estimates"]
+  },
+  {
+    "name": "Louisiana Workforce Commission",
+    "type": "workforce",
+    "expectedFormat": "CSV/XLSX",
+    "status": "planned",
+    "fieldsNeeded": ["occupational projections", "regional demand indicators"]
+  },
+  {
+    "name": "Bureau of Labor Statistics",
+    "type": "workforce",
+    "expectedFormat": "API/CSV",
+    "status": "planned",
+    "fieldsNeeded": ["employment", "wages", "occupational employment statistics"]
+  }
+]
