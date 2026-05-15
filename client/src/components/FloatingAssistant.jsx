@@ -14,7 +14,7 @@ const suggested = [
 
 const FIRST_MESSAGE = {
   role: "assistant",
-  text: "Hi — I can help you explore parish priority, scoring, and data coverage. Answers cite public sources or model estimates where applicable.",
+  text: "Hi. I can help you explore parish priority, scoring, and data coverage. Answers cite public sources or model estimates where applicable.",
   sources: []
 };
 

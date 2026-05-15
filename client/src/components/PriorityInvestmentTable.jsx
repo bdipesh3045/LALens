@@ -16,10 +16,10 @@ function PriorityInvestmentTable({ parishList, onSelectParish, limit = 8 }) {
             <SourceBadge type="model" />
           </div>
           <p className="tiny muted">
-            Parish-level ranking from the sample Opportunity Score model. School-level sample matches appear in K-12 intake results.
+            Parish-level ranking from the sample Opportunity Score model. School-level sample matches appear in investment intake results.
           </p>
         </div>
-        <a href="#platform-map" className="btn btn-primary btn-sm priority-view-all">
+        <a href="#platform-map" className="btn app-btn-gradient btn-sm priority-view-all">
           View map <ExternalLink size={14} aria-hidden />
         </a>
       </div>
@@ -52,9 +52,9 @@ function PriorityInvestmentTable({ parishList, onSelectParish, limit = 8 }) {
                 <td>{row.needSignal}</td>
                 <td className="priority-pathway-cell">{row.pathwayFit}</td>
                 <td className="priority-score-cell">{row.matchScore}</td>
-                <td>
+                <td className="priority-est-cell">
                   <span className="priority-estimate">{row.investmentEstimate}</span>
-                  <SourceBadge type="demo" className="priority-est-badge" />
+                  <SourceBadge type="demo" label="Demo estimate" className="priority-est-badge" />
                 </td>
               </tr>
             ))}

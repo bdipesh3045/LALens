@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SendHorizontal, LoaderCircle, ShieldCheck, Bot, User } from "lucide-react";
 import BrandLogo from "./BrandLogo";
+import SourceBadge from "./SourceBadge";
 
 const suggested = [
   "Top parishes for a new vocational pathway",
@@ -86,7 +87,7 @@ function InsightChat({ selectedParishId }) {
           </div>
           <div className="chat-title-row insight-chat-title-row">
             <h3>Insight assistant</h3>
-            <span className="prototype-badge insight-chat-badge">Sample metrics</span>
+            <SourceBadge type="demo" label="12-parish sample" className="insight-chat-badge" />
           </div>
         </div>
         <div className="insight-chat-mark" aria-hidden>
@@ -177,7 +178,7 @@ function InsightChat({ selectedParishId }) {
             />
             <button
               type="submit"
-              className="btn btn-primary insight-send-fab"
+              className="btn app-btn-gradient insight-send-fab"
               disabled={loading}
               aria-label={loading ? "Sending" : "Send message"}
             >
@@ -189,7 +190,7 @@ function InsightChat({ selectedParishId }) {
 
       <p className="insight-disclaimer">
         <ShieldCheck size={14} strokeWidth={1.75} aria-hidden />
-        <span>Advisory only—confirm material decisions locally.</span>
+        <span>Advisory only. Confirm material decisions locally.</span>
       </p>
     </section>
   );

@@ -1,47 +1,136 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Scale, GitBranch, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
+import { SAMPLE_METRIC_COUNT, TOTAL_LA_PARISH_COUNT } from "../data/parishes";
 import MethodologyWeights from "../components/MethodologyWeights";
+
+const FACTORS = [
+  {
+    key: "studentNeed",
+    title: "Student need",
+    weight: "35%",
+    body: "Academic proficiency, graduation, absenteeism, and socioeconomic context when connected."
+  },
+  {
+    key: "enrollment",
+    title: "Enrollment pressure",
+    weight: "20%",
+    body: "Enrollment growth or decline and stress on local school models."
+  },
+  {
+    key: "workforce",
+    title: "Workforce gap",
+    weight: "25%",
+    body: "Projected regional demand and pathway-to-opportunity alignment."
+  },
+  {
+    key: "pathway",
+    title: "Pathway access",
+    weight: "10%",
+    body: "Availability of pathways tied to high-demand occupations."
+  },
+  {
+    key: "feasibility",
+    title: "Feasibility",
+    weight: "10%",
+    body: "Partner capacity, employer links, and implementation readiness."
+  }
+];
+
+const PIPELINE = [
+  "Data input",
+  "Normalization",
+  "Weighted score",
+  "Recommendation",
+  "Human review"
+];
+
+const TRUST = [
+  "Transparent inputs and published weights",
+  "Adjustable weights with live preview",
+  "Sensitivity analysis ready",
+  "Evidence and limitations surfaced in-product"
+];
 
 function Methodology() {
   return (
-    <main className="container page-section">
-      <section className="card">
-        <p className="section-label">Methodology</p>
-        <h1>How the Opportunity Score Works</h1>
-        <p>The score is a transparent multi-factor decision-support model. It does not replace human judgment and it does not claim exact causal impact.</p>
-        <p style={{ marginTop: "0.75rem" }}>
-          The map layer includes <strong>all 64 Louisiana parishes</strong> for geography and navigation. The live prototype currently attaches detailed illustrative metrics to <strong>12 sample parishes</strong> so stakeholders can experience the full workflow. Scores on the Platform for those parishes are computed from the published factor weights and those sample values—not from official statewide LDOE or workforce releases. Validated inputs for every parish are part of the integration roadmap (LDOE, Census, NCES, BLS, Louisiana Workforce Commission).
+    <main className="app-page">
+      <header className="card app-page-hero">
+        <p className="app-page-kicker">Methodology</p>
+        <h1>
+          How the <span className="app-gradient-text">Opportunity Score</span> works
+        </h1>
+        <p className="app-page-lead">
+          A transparent multi-factor decision-support model. It does not replace human judgment and does not claim
+          exact causal impact.
+        </p>
+        <p className="app-page-note">
+          The map includes all <strong>{TOTAL_LA_PARISH_COUNT} Louisiana parishes</strong> for geography. Detailed
+          metrics are attached to <strong>{SAMPLE_METRIC_COUNT} sample parishes</strong> in this prototype. Scores for
+          those parishes use published weights and sample values, not official statewide LDOE or workforce releases.
+        </p>
+        <div className="app-page-hero-actions">
+          <Link to="/platform" className="btn app-btn-gradient">
+            Open platform
+          </Link>
+          <Link to="/data-sources" className="btn btn-secondary">
+            View data sources
+          </Link>
+        </div>
+      </header>
+
+      <section className="card app-formula-card">
+        <div className="app-formula-head">
+          <Scale size={22} aria-hidden />
+          <h2>Opportunity Score formula</h2>
+        </div>
+        <p className="app-formula-text mono">
+          35% Student Need + 20% Enrollment Pressure + 25% Workforce Gap + 10% Pathway Access Gap + 10% Feasibility
         </p>
       </section>
 
-      <section className="card formula-card">
-        <h2>Opportunity Score Formula</h2>
-        <p className="mono formula-text">35% Student Need + 20% Enrollment Pressure + 25% Workforce Gap + 10% Pathway Access Gap + 10% Feasibility</p>
+      <section className="app-page-section">
+        <p className="app-page-kicker">Score factors</p>
+        <h2 className="app-section-title">Five factors, one ranked brief</h2>
+        <ul className="app-factor-grid">
+          {FACTORS.map((f) => (
+            <li key={f.key} className="app-factor-card">
+              <span className="app-factor-weight">{f.weight}</span>
+              <h3>{f.title}</h3>
+              <p>{f.body}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="feature-row">
-        <article className="card"><h3>Student Need</h3><p>Academic proficiency, graduation, absenteeism, socioeconomic context.</p></article>
-        <article className="card"><h3>Enrollment Pressure</h3><p>Enrollment growth or decline and stress on school models.</p></article>
-        <article className="card"><h3>Workforce Gap</h3><p>Projected regional demand and pathway-to-opportunity alignment.</p></article>
-        <article className="card"><h3>Pathway Access</h3><p>Availability of pathways tied to high-demand occupations.</p></article>
-        <article className="card"><h3>Feasibility</h3><p>Partner capacity, employer links, implementation readiness.</p></article>
-      </section>
-
-      <section className="card">
-        <p className="section-label">Model Pipeline</p>
-        <div className="stepper">
-          <span>Data Input</span><span>Normalization</span><span>Weighted Score</span><span>Recommendation</span><span>Human Review</span>
+      <section className="card app-pipeline-card">
+        <div className="app-pipeline-head">
+          <GitBranch size={20} aria-hidden />
+          <h2>Model pipeline</h2>
         </div>
+        <ol className="app-pipeline-steps">
+          {PIPELINE.map((step, i) => (
+            <li key={step}>
+              <span className="app-pipeline-num">{String(i + 1).padStart(2, "0")}</span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <MethodologyWeights />
 
-      <section className="card">
-        <p className="section-label">Trust and Transparency</p>
-        <ul className="trust-list">
-          <li><CheckCircle2 size={14} /> Transparent inputs</li>
-          <li><CheckCircle2 size={14} /> Adjustable weights</li>
-          <li><CheckCircle2 size={14} /> Sensitivity analysis ready</li>
-          <li><CheckCircle2 size={14} /> Evidence and limitations included</li>
+      <section className="card app-trust-card">
+        <div className="app-trust-head">
+          <Shield size={20} aria-hidden />
+          <h2>Trust and transparency</h2>
+        </div>
+        <ul className="app-trust-list">
+          {TRUST.map((item) => (
+            <li key={item}>
+              <CheckCircle2 size={16} aria-hidden />
+              {item}
+            </li>
+          ))}
         </ul>
       </section>
     </main>

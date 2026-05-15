@@ -52,7 +52,7 @@ function HomeHeroMap() {
         })}
       </MapContainer>
       <div className="home-hero-map-cap">
-        <span className="home-hero-map-hint">Drag, zoom, and tap markers — 64 parishes</span>
+        <span className="home-hero-map-hint">Drag, zoom, and tap markers · 64 parishes</span>
         <Link to="/platform" className="home-hero-map-cta">
           Full map &amp; dashboard
         </Link>

@@ -10,13 +10,13 @@ const cards = [
   {
     num: "02",
     title: "Prioritize schools",
-    body: "Rank institutions by workforce gap, poverty, and funding need—then drill into parish dashboards and score breakdowns.",
+    body: "Rank institutions by workforce gap, poverty, and funding need, then drill into parish dashboards and score breakdowns.",
     accent: "orange"
   },
   {
     num: "03",
     title: "Match investment",
-    body: "Use the K-12 intake wizard to align your role, budget, and focus area with real school matches and funding needs.",
+    body: "Use the investment intake wizard to align your role, budget, and focus area with sample school matches.",
     accent: "green"
   }
 ];

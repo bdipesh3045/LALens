@@ -27,7 +27,7 @@ const PROBLEMS = [
   {
     icon: Users,
     title: "Student need",
-    body: "Outcomes and access gaps vary sharply by parish — leaders need comparable signals.",
+    body: "Outcomes and access gaps vary sharply by parish. Leaders need comparable signals.",
     accent: "orange"
   },
   {
@@ -103,7 +103,7 @@ function Challenge() {
         <motion.div className="challenge-hero-glow" aria-hidden initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} />
         <motion.div className="challenge-hero-inner" {...fadeUp}>
           <p className="challenge-kicker">Nexus DevDays · EdTech Challenge</p>
-          <motion.div className="challenge-hero-brand">
+          <div className="challenge-hero-brand">
             <BrandLogo variant="hero" />
             <div>
               <h1>
@@ -112,9 +112,10 @@ function Challenge() {
                 {" "}for education investment.
               </h1>
             </div>
-          </motion.div>
+          </div>
           <p className="challenge-hero-lead">
-            Student needs are shifting. Workforce demand is evolving. LALens unifies scattered public data into one workflow — so leaders know where to invest, what to build, and why.
+            Student needs are shifting. Workforce demand is evolving. LALens unifies scattered public data into one
+            workflow so leaders know where to invest, what to build, and why.
           </p>
           <div className="challenge-hero-actions">
             <Link to="/platform" className="btn btn-primary challenge-btn-primary">
@@ -258,13 +259,13 @@ function Challenge() {
         <motion.section className="challenge-cta" {...fadeUp}>
           <div className="challenge-cta-inner">
             <h2>Ready to explore the decision preview?</h2>
-            <p>Walk the map, read a parish brief, and ask the grounded assistant — all in one session.</p>
+            <p>Walk the map, read a parish brief, and ask the grounded assistant in one session.</p>
             <div className="challenge-cta-actions">
               <Link to="/platform" className="btn btn-primary challenge-btn-primary">
                 Open platform <ArrowRight size={16} aria-hidden />
               </Link>
               <Link to="/invest" className="btn btn-secondary">
-                K-12 intake wizard
+                Investment intake
               </Link>
             </div>
           </div>

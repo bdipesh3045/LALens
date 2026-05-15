@@ -160,7 +160,7 @@ function InvestmentIntake() {
           </p>
           <div className="intake-status-card">
             <h2>Your sample K-12 matches</h2>
-            <p className="tiny muted">Demo workflow — not a live funding commitment</p>
+            <p className="tiny muted">Demo workflow. Not a live funding commitment.</p>
             <div className="intake-status-grid">
               <div className="intake-status-tile pending">
                 <strong>{matches.length}</strong>
@@ -217,7 +217,7 @@ function InvestmentIntake() {
           </span>
           <h1>Your recommended investment matches</h1>
           <p className="intake-lead">
-            Ranked from LALens parish signals, need indicators, and pathway fit. Ranges are demo estimates — not official LDOE funding figures.
+            Ranked from LALens parish signals, need indicators, and pathway fit. Ranges are demo estimates, not official LDOE funding figures.
           </p>
           <ul className="intake-match-list">
             {matches.map((s, i) => (
@@ -304,7 +304,7 @@ function InvestmentIntake() {
                 <span className="intake-submit-divider" aria-hidden />
                 <span className="intake-submit-disclaimer">
                   <ShieldCheck size={12} aria-hidden />
-                  Demo only — not a funding commitment
+                  Demo only. Not a funding commitment.
                 </span>
               </div>
             </motion.div>
@@ -349,7 +349,7 @@ function InvestmentIntake() {
                 <h1>
                   What is your <span className="intake-gradient-text">investment capacity</span>?
                 </h1>
-                <p className="intake-lead">We use this to suggest program scale — classroom grants through multi-site partnerships.</p>
+                <p className="intake-lead">We use this to suggest program scale, from classroom grants through multi-site partnerships.</p>
                 <p className="intake-field-label">Annual giving range</p>
                 <IntakeChoiceGrid items={budgetItems} value={budget} onChange={setBudget} columns={3} />
               </>

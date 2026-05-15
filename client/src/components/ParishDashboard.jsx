@@ -73,7 +73,7 @@ function ParishDashboardPending({ parish }) {
       <article className="card pending-scoring-card">
         <p className="section-label">How this will be scored</p>
         <p>
-          When metrics are connected, the Opportunity Score will combine five factors: Student Need (35%), Enrollment Pressure (20%), Workforce Gap (25%), Pathway Access Gap (10%), and Feasibility (10%)—the same transparent model used for sample parishes today.
+          When metrics are connected, the Opportunity Score will combine five factors: Student Need (35%), Enrollment Pressure (20%), Workforce Gap (25%), Pathway Access Gap (10%), and Feasibility (10%). Same transparent model used for sample parishes today.
         </p>
         <div className="pending-dashboard-actions">
           <Link to="/data-sources" className="btn btn-primary">
@@ -122,35 +122,35 @@ function ParishDashboard({ parish }) {
   ];
 
   const trendData = (parish.enrollmentTrend || []).map((value, index) => ({ year: `Y${index + 1}`, value }));
+  const chartHeight = 168;
 
   return (
     <section className="dashboard-stack">
-      <div className="dashboard-top">
-        <article className="card score-card-big">
-          <p className="section-label">Opportunity Score</p>
-          <div className="score-card-head">
-            <h2>{parish.opportunityScore}</h2>
-            <span className="prototype-badge">Prototype score</span>
-          </div>
-          <span className={`priority-pill ${parish.priorityLevel.toLowerCase()}`}>{parish.priorityLevel}</span>
-          <p>{parish.name}</p>
-          <p className="tiny muted" style={{ marginTop: "0.5rem" }}>
-            Top model drivers (sample data): {driverLine}
-          </p>
-        </article>
-        <article className="card">
-          <p className="section-label">Recommended Intervention</p>
-          <h3>{parish.recommendedIntervention}</h3>
-          <p>{parish.recommendationSummary}</p>
-        </article>
+      <div className="dashboard-primary">
+        <div className="dashboard-top">
+          <article className="card score-card-big">
+            <p className="section-label">Opportunity Score</p>
+            <div className="score-card-head">
+              <h2>{parish.opportunityScore}</h2>
+              <span className="prototype-badge">Prototype score</span>
+            </div>
+            <span className={`priority-pill ${parish.priorityLevel.toLowerCase()}`}>{parish.priorityLevel}</span>
+            <p>{parish.name}</p>
+            <p className="tiny muted dashboard-driver-line">Top drivers: {driverLine}</p>
+          </article>
+          <article className="card dashboard-intervention-card">
+            <p className="section-label">Recommended Intervention</p>
+            <h3>{parish.recommendedIntervention}</h3>
+            <p>{parish.recommendationSummary}</p>
+          </article>
+        </div>
+        <ScoreBreakdown parish={parish} compact />
       </div>
-
-      <ScoreBreakdown parish={parish} />
 
       <div className="chart-grid">
         <article className="card">
           <h3>Score Radar</h3>
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
             <RadarChart data={radarData}>
               <PolarGrid stroke="#E6E8F0" />
               <PolarAngleAxis dataKey="factor" stroke="#697089" />
@@ -160,7 +160,7 @@ function ParishDashboard({ parish }) {
         </article>
         <article className="card">
           <h3>Enrollment Trend</h3>
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
             <LineChart data={trendData}>
               <CartesianGrid stroke="#E6E8F0" strokeDasharray="4 4" />
               <XAxis dataKey="year" stroke="#697089" />
@@ -172,7 +172,7 @@ function ParishDashboard({ parish }) {
         </article>
         <article className="card">
           <h3>Workforce Fit</h3>
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
             <BarChart data={parish.workforceFit || []}>
               <CartesianGrid stroke="#E6E8F0" strokeDasharray="4 4" />
               <XAxis dataKey="sector" stroke="#697089" />

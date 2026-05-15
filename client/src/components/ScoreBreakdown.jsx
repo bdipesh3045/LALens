@@ -63,18 +63,24 @@ function clampScore(n) {
   return Math.min(100, Math.max(0, Math.round(x)));
 }
 
-export default function ScoreBreakdown({ parish }) {
+export default function ScoreBreakdown({ parish, compact = false }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <article className="card score-breakdown-card">
+    <article className={`card score-breakdown-card${compact ? " score-breakdown-card--compact" : ""}`}>
       <header className="score-breakdown-head">
-        <p className="section-label">Score breakdown</p>
-        <h3 className="score-breakdown-title">Five factor indices</h3>
-        <p className="score-breakdown-lead">
-          Each factor is scored 0–100. The headline Opportunity Score is a weighted blend using the percentages shown.
-        </p>
-        <SourceBadge type="model" />
+        <div className="score-breakdown-head-row">
+          <div>
+            <p className="section-label">Score breakdown</p>
+            <h3 className="score-breakdown-title">Five factor indices</h3>
+          </div>
+          <SourceBadge type="model" />
+        </div>
+        {!compact && (
+          <p className="score-breakdown-lead">
+            Each factor is scored 0–100. The headline Opportunity Score is a weighted blend using the percentages shown.
+          </p>
+        )}
       </header>
       <ul className="score-breakdown-list" aria-label="Opportunity score factors">
         {FACTORS_WITH_META.map((row, i) => {
@@ -96,7 +102,7 @@ export default function ScoreBreakdown({ parish }) {
                 <div className="score-breakdown-text">
                   <span className="score-breakdown-label">{row.label}</span>
                   <span className="score-breakdown-weight">{row.weightPct}% of composite</span>
-                  <span className="score-breakdown-help tiny muted">{row.help}</span>
+                  {!compact && <span className="score-breakdown-help tiny muted">{row.help}</span>}
                 </div>
               </div>
               <div
@@ -126,7 +132,7 @@ export default function ScoreBreakdown({ parish }) {
           );
         })}
       </ul>
-      <RealityNote compact />
+      {!compact && <RealityNote compact />}
     </article>
   );
 }

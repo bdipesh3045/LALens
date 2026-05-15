@@ -10,11 +10,17 @@ import HomeStepper from "../components/HomeStepper";
 import HomeHeroMap from "../components/HomeHeroMap";
 import HomePlanningCard from "../components/HomePlanningCard";
 import HomeMetricCard from "../components/HomeMetricCard";
-import HomeChartsPreview from "../components/HomeChartsPreview";
 import HomeStepCards from "../components/HomeStepCards";
 import PlatformAnalytics from "../components/PlatformAnalytics";
 import RealityNote from "../components/RealityNote";
 import { problemMiniCards, productNarrative } from "../data/realityAnchors";
+
+const fadeUp = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-48px" },
+  transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] }
+};
 
 function Home() {
   useEffect(() => {
@@ -39,7 +45,7 @@ function Home() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            NEXUS DEVDAYS EDTECH CHALLENGE
+            Nexus DevDays · EdTech Challenge
           </motion.p>
 
           <motion.h1
@@ -50,7 +56,7 @@ function Home() {
           >
             <span className="home-hero-line">Find gaps. Build better</span>
             <span className="home-hero-line">
-            <span className="home-gradient-opportunity">pathways.</span>
+              <span className="home-gradient-opportunity">pathways.</span>
             </span>
           </motion.h1>
 
@@ -60,19 +66,36 @@ function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.06 }}
           >
-            LALens turns Louisiana education, workforce, and demographic signals into clear investment recommendations, showing where need and opportunity overlap.
+            LALens turns Louisiana education, workforce, and demographic signals into clear investment recommendations,
+            showing where need and opportunity overlap.
           </motion.p>
 
           <motion.div
             className="home-hero-stepper-wrap"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.06, type: "spring", stiffness: 280, damping: 28 }}
+            transition={{ delay: 0.08, type: "spring", stiffness: 280, damping: 28 }}
           >
             <HomeStepper />
           </motion.div>
 
-          <section className="home-metrics-row home-hero-metrics" aria-label="Key metrics">
+          <motion.div
+            className="home-hero-ctas home-hero-ctas--top"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12 }}
+          >
+            <Link to="/platform" className="home-btn-primary">
+              Explore the platform
+            </Link>
+            <Link to="/invest" className="home-btn-secondary">
+              Investment intake
+            </Link>
+          </motion.div>
+        </section>
+
+        <section className="home-section home-section--metrics" aria-label="Key metrics">
+          <div className="home-metrics-row">
             {[
               { value: String(homeStats.mapped), label: "Parishes mapped", hint: "Public geography layer", accent: "lavender" },
               { value: String(homeStats.sampleMetrics), label: "Scored examples", hint: "Prototype sample", accent: "orange" },
@@ -81,124 +104,73 @@ function Home() {
             ].map((card, i) => (
               <motion.div
                 key={card.label}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.07 + i * 0.05, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
               >
                 <HomeMetricCard value={card.value} label={card.label} hint={card.hint} accent={card.accent} />
               </motion.div>
             ))}
-          </section>
-
-          <RealityNote compact />
-
-          <motion.div
-            className="home-dashboard-analytics"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.09, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <PlatformAnalytics />
-          </motion.div>
-
-          <motion.section
-            className="home-problem-section"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.45 }}
-          >
-            <p className="home-kicker">THE PROBLEM</p>
-            <h2 className="home-section-title home-section-title-center">{productNarrative.problemTitle}</h2>
-            <p className="home-section-lead home-section-lead-center">{productNarrative.problemLead}</p>
-            <div className="home-problem-grid">
-              {problemMiniCards.map((card) => (
-                <article key={card.title} className="home-problem-card">
-                  <h3>{card.title}</h3>
-                  <p>{card.body}</p>
-                </article>
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.div
-            className="home-hero-map-shell"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12, type: "spring", stiffness: 260, damping: 26 }}
-          >
-            <HomeHeroMap />
-          </motion.div>
-
-          <p className="tiny muted home-map-note home-hero-map-note">
-            The prototype maps all Louisiana parishes and demonstrates scoring with an initial sample dataset.
-          </p>
-
-          <motion.p
-            className="home-hero-body"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.12 }}
-          >
-            LALens is designed to combine education, workforce, and demographic signals into transparent recommendations for where to invest, what to build, and why. The prototype maps <strong>all 64 Louisiana parishes</strong> and demonstrates scoring with an initial <strong>{SAMPLE_METRIC_COUNT}-parish sample dataset</strong>—not statewide official releases for every parish.
-          </motion.p>
-
-          <motion.div
-            className="home-hero-ctas"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18 }}
-          >
-            <Link to="/platform" className="home-btn-primary">
-              Explore the Platform
-            </Link>
-            <Link to="/invest" className="home-btn-secondary">
-              K-12 Investment Intake
-            </Link>
-            <Link to="/methodology" className="home-btn-secondary">
-              View Methodology
-            </Link>
-          </motion.div>
+          </div>
         </section>
 
-        <motion.div
-          className="home-planning-wrap"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <HomePlanningCard />
-        </motion.div>
+        <motion.section className="home-section home-section--analytics" {...fadeUp}>
+          <p className="home-kicker">Statewide signals</p>
+          <h2 className="home-section-title">How the model reads Louisiana</h2>
+          <p className="home-section-lead">
+            Enrollment pressure, workforce demand, and investment focus in one view. Values are model estimates unless
+            labeled as a public source.
+          </p>
+          <div className="home-dashboard-analytics">
+            <PlatformAnalytics />
+          </div>
+          <RealityNote compact className="home-reality-note" />
+        </motion.section>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <HomeChartsPreview />
-        </motion.div>
+        <motion.section className="home-section home-section--problem" {...fadeUp}>
+          <p className="home-kicker">The problem</p>
+          <h2 className="home-section-title">{productNarrative.problemTitle}</h2>
+          <p className="home-section-lead">{productNarrative.problemLead}</p>
+          <div className="home-problem-grid">
+            {problemMiniCards.map((card) => (
+              <article key={card.title} className="home-problem-card">
+                <h3>{card.title}</h3>
+                <p>{card.body}</p>
+              </article>
+            ))}
+          </div>
+        </motion.section>
 
-        <section className="home-features-section">
-          <motion.h2
-            className="home-section-title home-section-title-center"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.4 }}
-          >
-            Three tools. One investment decision.
-          </motion.h2>
+        <motion.section className="home-section home-section--map" {...fadeUp}>
+          <p className="home-kicker">Gap map</p>
+          <h2 className="home-section-title">Explore every Louisiana parish</h2>
+          <p className="home-section-lead">
+            All <strong>64 parishes</strong> are mapped. Detailed scoring is shown for{" "}
+            <strong>{SAMPLE_METRIC_COUNT} sample parishes</strong> in this prototype.
+          </p>
+          <div className="home-hero-map-shell">
+            <HomeHeroMap />
+          </div>
+          <p className="home-map-caption">
+            Drag, zoom, and select markers. Sample parishes include full dashboards and AI-ready briefs.
+          </p>
+        </motion.section>
+
+        <motion.section className="home-section home-section--planning" {...fadeUp}>
+          <div className="home-planning-wrap">
+            <HomePlanningCard />
+          </div>
+        </motion.section>
+
+        <motion.section className="home-section home-features-section" {...fadeUp}>
+          <p className="home-kicker">Platform tools</p>
+          <h2 className="home-section-title">Three tools. One investment decision.</h2>
+          <p className="home-section-lead">
+            Map gaps, ask grounded questions, and compare scores without leaving one workflow.
+          </p>
           <div className="home-feature-grid">
-            <motion.article
-              className="home-feature-card"
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: 0 }}
-              whileHover={{ y: -6 }}
-            >
+            <motion.article className="home-feature-card" whileHover={{ y: -6 }}>
               <span className="home-feature-accent lavender" />
               <span className="home-feature-icon">
                 <Map size={22} strokeWidth={1.75} />
@@ -206,29 +178,15 @@ function Home() {
               <h3>Gap Map</h3>
               <p>Identify parishes where academic need, enrollment pressure, and workforce gaps overlap.</p>
             </motion.article>
-            <motion.article
-              className="home-feature-card"
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: 0.08 }}
-              whileHover={{ y: -6 }}
-            >
+            <motion.article className="home-feature-card" whileHover={{ y: -6 }}>
               <span className="home-feature-accent pink" />
               <span className="home-feature-icon home-feature-icon--logo">
                 <BrandLogo variant="feature" />
               </span>
               <h3>AI Insight Engine</h3>
-              <p>Ask plain-English questions and receive answers grounded in the 12-parish sample shown in this prototype.</p>
+              <p>Ask plain-English questions and receive answers grounded in the 12-parish sample in this build.</p>
             </motion.article>
-            <motion.article
-              className="home-feature-card"
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: 0.16 }}
-              whileHover={{ y: -6 }}
-            >
+            <motion.article className="home-feature-card" whileHover={{ y: -6 }}>
               <span className="home-feature-accent blue" />
               <span className="home-feature-icon">
                 <ChartColumn size={22} strokeWidth={1.75} />
@@ -237,37 +195,29 @@ function Home() {
               <p>Compare Opportunity Scores, score drivers, evidence, risks, and potential partners.</p>
             </motion.article>
           </div>
-        </section>
+        </motion.section>
 
-        <motion.section
-          className="home-steps-section"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45 }}
-        >
-          <p className="home-kicker">HOW IT WORKS</p>
-          <h2 className="home-section-title home-section-title-center">From statewide map to matched K-12 investment.</h2>
+        <motion.section className="home-section home-steps-section" {...fadeUp}>
+          <p className="home-kicker">How it works</p>
+          <h2 className="home-section-title">From statewide map to matched investment</h2>
+          <p className="home-section-lead">
+            A single path from exploration to a ranked brief you can share with funders and operators.
+          </p>
           <HomeStepCards />
         </motion.section>
 
-        <motion.section
-          className="home-final-cta"
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <motion.section className="home-section home-final-cta" {...fadeUp}>
           <h2 className="home-final-title">Ready to find the next opportunity zone?</h2>
           <p className="home-final-text">
-            Explore the prototype map and see how decision-ready intelligence can support education-investment conversations—starting with the 12-parish sample, with a path to full statewide integration.
+            Open the platform map and parish dashboards. Start with the {SAMPLE_METRIC_COUNT}-parish sample, with a path
+            to full statewide integration.
           </p>
           <div className="home-hero-ctas">
             <Link to="/platform" className="home-btn-primary">
-              Explore the Platform
+              Explore the platform
             </Link>
             <Link to="/data-sources" className="home-btn-secondary">
-              View Data Sources
+              View data sources
             </Link>
           </div>
         </motion.section>

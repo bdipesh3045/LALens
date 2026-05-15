@@ -118,7 +118,7 @@ function ParishDetailPanel({ parish, onClose }) {
 
           <Link to="/invest" className="btn btn-primary parish-allocate-btn">
             <DollarSign size={16} aria-hidden />
-            Allocate funds — intake wizard
+            Investment intake
           </Link>
         </>
       ) : (
