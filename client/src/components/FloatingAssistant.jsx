@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Bot, MessageCircle, X, Send, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 
 const suggested = [
   "Where should we invest first?",
@@ -110,7 +111,10 @@ function FloatingAssistant() {
                 <header className="floating-assistant-head">
                   <div>
                     <p className="floating-assistant-title">
-                      <Sparkles size={14} aria-hidden /> Navigator Assistant
+                      <span className="floating-assistant-title-row">
+                        <BrandLogo variant="panel-title" alt="" aria-hidden />
+                        <span>Navigator Assistant</span>
+                      </span>
                     </p>
                     <p className="floating-assistant-sub">Ask about opportunity zones, scoring, or data sources.</p>
                   </div>
@@ -189,7 +193,7 @@ function FloatingAssistant() {
           transition={{ type: "spring", stiffness: 500, damping: 32 }}
         >
           <span className="floating-assistant-launcher-inner">
-            <Bot size={22} strokeWidth={1.75} aria-hidden />
+            <BrandLogo variant="launcher" alt="" aria-hidden />
             <MessageCircle size={14} className="floating-assistant-msgicon" aria-hidden />
           </span>
           <span className="floating-assistant-launcher-label">Ask Navigator</span>

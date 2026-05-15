@@ -15,6 +15,7 @@ import {
   YAxis
 } from "recharts";
 import { parishes } from "../data/parishes";
+import BrandLogo from "./BrandLogo";
 
 const chartColors = {
   purple: "#7C3AED",
@@ -147,7 +148,10 @@ function HomeChartsPreview() {
           </article>
 
           <article className="home-chart-card home-ai-card">
-            <h3 className="home-chart-title">AI Insight Preview</h3>
+            <div className="home-ai-card-title-row">
+              <BrandLogo variant="feature" />
+              <h3 className="home-chart-title">AI Insight Preview</h3>
+            </div>
             <p className="home-ai-q">Where should we invest first?</p>
             <p className="home-ai-a">
               Prioritize parishes where high student need overlaps with workforce demand and limited pathway access. In this sample dataset, {lead?.name.replace(" Parish", "")} and {second?.name.replace(" Parish", "")} rank highest on the current Opportunity Score—useful for discussion, not as an official statewide allocation.

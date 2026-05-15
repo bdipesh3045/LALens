@@ -1,8 +1,9 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Bot, ChartColumn, Map } from "lucide-react";
+import { ChartColumn, Map } from "lucide-react";
 import { parishes, SAMPLE_METRIC_COUNT } from "../data/parishes";
+import BrandLogo from "../components/BrandLogo";
 import HomeNavbar from "../components/HomeNavbar";
 import HomeFooter from "../components/HomeFooter";
 import HomeStepper from "../components/HomeStepper";
@@ -117,8 +118,8 @@ function Home() {
               transition={{ duration: 0.2 }}
             >
               <span className="home-feature-accent pink" />
-              <span className="home-feature-icon">
-                <Bot size={22} strokeWidth={1.75} />
+              <span className="home-feature-icon home-feature-icon--logo">
+                <BrandLogo variant="feature" />
               </span>
               <h3>AI Insight Engine</h3>
               <p>Ask plain-English questions and receive answers grounded in the 12-parish sample shown in this prototype.</p>

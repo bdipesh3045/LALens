@@ -11,6 +11,7 @@ import {
 import GapMap from "../components/GapMap";
 import ParishDashboard from "../components/ParishDashboard";
 import InsightChat from "../components/InsightChat";
+import BrandLogo from "../components/BrandLogo";
 
 const initialFilters = { coverage: "All", priority: "All", region: "All", workforce: "All" };
 
@@ -56,7 +57,8 @@ function Platform() {
   return (
     <main className="container page-section">
       <section className="card">
-        <div className="section-head">
+        <div className="section-head platform-section-head">
+          <BrandLogo variant="nav" className="platform-section-logo" />
           <div>
             <p className="section-label">Platform</p>
             <div className="platform-title-row">

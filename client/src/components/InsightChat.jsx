@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Bot, SendHorizontal, LoaderCircle, ShieldCheck } from "lucide-react";
+import { SendHorizontal, LoaderCircle, ShieldCheck } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 
 const suggested = [
   "Which 5 parishes need a new vocational pathway most urgently?",
@@ -69,7 +70,9 @@ function InsightChat({ selectedParishId }) {
             <span className="prototype-badge">Grounded in current sample dataset</span>
           </div>
         </div>
-        <span className="icon-badge"><Bot size={14} /></span>
+        <span className="icon-badge">
+          <BrandLogo variant="badge" alt="" />
+        </span>
       </div>
       <div className="chip-row">
         {suggested.map((q) => <button key={q} className="chip" onClick={() => send(q)}>{q}</button>)}

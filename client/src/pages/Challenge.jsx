@@ -1,12 +1,18 @@
 import { GraduationCap, BriefcaseBusiness, Building2, MapPinned, Network } from "lucide-react";
 import { Link } from "react-router-dom";
+import BrandLogo from "../components/BrandLogo";
 
 function Challenge() {
   return (
     <main className="container page-section">
       <section className="card">
-        <p className="section-label">DevDays Challenge</p>
-        <h1>LALens</h1>
+        <div className="challenge-hero-head">
+          <BrandLogo variant="hero" />
+          <div>
+            <p className="section-label">DevDays Challenge</p>
+            <h1>LALens</h1>
+          </div>
+        </div>
         <p>Louisiana’s education landscape is shifting. Student needs are changing. Workforce demand is evolving. Decision-makers need a unified picture of where to invest, what to build, and why.</p>
       </section>
 

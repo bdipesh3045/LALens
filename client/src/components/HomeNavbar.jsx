@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
-import { ArrowRight, Compass } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 
 const links = [
   { to: "/platform", label: "Platform" },
@@ -14,7 +15,7 @@ function HomeNavbar() {
       <div className="home-nav-inner">
         <Link to="/" className="home-brand">
           <span className="home-brand-icon">
-            <Compass size={20} strokeWidth={1.75} />
+            <BrandLogo variant="nav" loading="eager" fetchPriority="high" />
           </span>
           <span className="home-brand-text">
             <span className="home-brand-title">LALens</span>
