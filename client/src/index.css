@@ -783,12 +783,107 @@ body.home-page select {
   color: transparent;
 }
 
+.home-hero-stepper-wrap {
+  width: 100%;
+  max-width: 900px;
+  margin: 0.5rem auto 0;
+}
+
+.home-hero-stepper-wrap .home-stepper {
+  margin: 0 auto 10px;
+  padding: 0 10px;
+}
+
+.home-hero-stepper-wrap .home-step-circle {
+  border-width: 1px;
+  border-color: #dcd3c8;
+  background: #fff;
+}
+
+.home-hero-stepper-wrap .home-step-circle.active {
+  border-color: #f97316;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.45), 0 0 32px rgba(139, 92, 246, 0.32);
+  transform: scale(1.04);
+}
+
+.home-hero-stepper-wrap .home-step-label {
+  font-weight: 700;
+  color: #1a0d07;
+}
+
+.home-hero-stepper-wrap .home-step-node.active .home-step-label {
+  color: #7c3aed;
+}
+
+.home-hero-stepper-wrap .home-step-node.active .home-step-circle {
+  color: #7c3aed;
+}
+
 .home-hero-body {
   max-width: 760px;
-  margin: 28px auto 0;
+  margin: 22px auto 0;
   font-size: 1.18rem;
   line-height: 1.7;
   color: #7b6f68;
+}
+
+.home-hero-map-shell {
+  width: 100%;
+  max-width: 920px;
+  margin: 10px auto 0;
+}
+
+.home-hero-map {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid #e7dccf;
+  box-shadow: 0 22px 64px rgba(26, 13, 7, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  background: #fff;
+}
+
+.home-hero-map-inner {
+  height: clamp(240px, 38vw, 320px);
+  width: 100%;
+  z-index: 0;
+}
+
+.home-hero-map .leaflet-container {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.home-hero-map-cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 11px 18px 14px;
+  background: linear-gradient(180deg, rgba(255, 254, 251, 0.98), #fbf6ee);
+  border-top: 1px solid rgba(231, 220, 207, 0.9);
+}
+
+.home-hero-map-hint {
+  font-size: 0.8rem;
+  color: #7b6f68;
+  letter-spacing: 0.01em;
+}
+
+.home-hero-map-cta {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #7c3aed;
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  background: rgba(241, 232, 255, 0.5);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.home-hero-map-cta:hover {
+  background: rgba(241, 232, 255, 0.95);
+  transform: translateY(-1px);
 }
 
 .home-hero-ctas {
@@ -842,22 +937,12 @@ body.home-page select {
   background: #fffefb;
 }
 
-/* Stepper */
+/* Stepper — line runs through vertical center of step circles */
 .home-stepper {
   position: relative;
   max-width: 920px;
   margin: 0 auto 64px;
   padding: 0 16px;
-}
-
-.home-stepper-track {
-  position: absolute;
-  left: 12%;
-  right: 12%;
-  top: 36px;
-  height: 2px;
-  background: linear-gradient(90deg, #e7dccf, #f97316 50%, #e7dccf);
-  border-radius: 2px;
 }
 
 .home-stepper-nodes {
@@ -868,6 +953,39 @@ body.home-page select {
   position: relative;
 }
 
+.home-stepper-track {
+  position: absolute;
+  left: 11%;
+  right: 11%;
+  top: calc(1.25rem + 12px + 28px);
+  transform: translateY(-50%);
+  height: 4px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.home-stepper-track-base {
+  position: absolute;
+  inset: 0;
+  background: #e8e0d6;
+  border-radius: 4px;
+}
+
+.home-stepper-track-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #7c3aed, #c026d3 50%, #f97316);
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.25);
+  transform-origin: left center;
+  will-change: transform;
+}
+
 .home-step-node {
   flex: 1;
   display: flex;
@@ -875,14 +993,26 @@ body.home-page select {
   align-items: center;
   text-align: center;
   max-width: 200px;
+  position: relative;
+  z-index: 1;
+}
+
+.home-step-node.active .home-step-label {
+  color: #7c3aed;
+  font-weight: 600;
 }
 
 .home-step-num {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   color: #7b6f68;
-  margin-bottom: 10px;
+  min-height: 1.25rem;
+  line-height: 1.25rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home-step-circle {
@@ -894,14 +1024,15 @@ body.home-page select {
   display: grid;
   place-items: center;
   color: #7b6f68;
-  transition: box-shadow 0.25s, border-color 0.25s, color 0.25s;
+  transition: box-shadow 0.35s, border-color 0.35s, color 0.35s, transform 0.35s;
 }
 
 .home-step-circle.active {
   border-color: #f97316;
   color: #7c3aed;
   background: linear-gradient(145deg, #fff8f1, #f1e8ff);
-  box-shadow: 0 0 0 6px rgba(249, 115, 22, 0.15), 0 12px 32px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 0 0 6px rgba(249, 115, 22, 0.14), 0 14px 36px rgba(124, 58, 237, 0.22);
+  transform: scale(1.06);
 }
 
 .home-step-label {
@@ -910,6 +1041,7 @@ body.home-page select {
   font-weight: 500;
   color: #1a0d07;
   line-height: 1.35;
+  transition: color 0.3s, font-weight 0.3s;
 }
 
 /* Planning card */
@@ -1027,14 +1159,33 @@ body.home-page select {
   margin: 0 auto 80px;
 }
 
+.home-metrics-row.home-hero-metrics {
+  margin: 2px auto 14px;
+  max-width: 920px;
+  gap: 14px;
+}
+
+.home-hero-map-note {
+  text-align: center;
+  max-width: 52rem;
+  margin: 2px auto 14px;
+  line-height: 1.55;
+}
+
 .home-metric-card {
   background: #fff;
   border: 1px solid #e7dccf;
-  border-radius: 20px;
-  padding: 1.35rem 1.1rem;
+  border-radius: 22px;
+  padding: 1.85rem 1.45rem 1.75rem;
   text-align: center;
   box-shadow: 0 12px 36px rgba(26, 13, 7, 0.06);
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 7.5rem;
 }
 
 .home-metric-card:hover {
@@ -1067,20 +1218,21 @@ body.home-page select {
 .home-metric-value {
   font-family: "Syne", sans-serif;
   font-weight: 800;
-  font-size: 2.25rem;
-  line-height: 1;
+  font-size: 2.4rem;
+  line-height: 1.05;
   color: #1a0d07;
   display: block;
 }
 
 .home-metric-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #7b6f68;
-  margin-top: 10px;
+  letter-spacing: 0.08em;
+  color: #1a0d07;
+  margin-top: 12px;
   display: block;
+  font-weight: 500;
 }
 
 /* Analytics preview */

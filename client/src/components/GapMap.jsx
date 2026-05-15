@@ -1,48 +1,8 @@
-import { useEffect } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import L from "leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { LocateFixed } from "lucide-react";
 import { SAMPLE_METRIC_COUNT, TOTAL_LA_PARISH_COUNT } from "../data/parishes";
-
-const SCORE_COLORS = { Low: "#22c55e", Moderate: "#0ea5e9", High: "#f97316", Urgent: "#f43f5e" };
-
-/** Pending: large hit target, small muted dot. Scored: saturated color, white ring, stronger shadow. */
-function markerIcon(parish, selected) {
-  const pending = !parish.hasMetrics;
-  if (pending) {
-    const sel = selected ? " gap-map-marker--pending-selected" : "";
-    return L.divIcon({
-      className: `gap-map-marker gap-map-marker--pending${sel}`,
-      html: '<span class="gap-map-dot-pending" aria-hidden="true"></span>',
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-      popupAnchor: [0, -12]
-    });
-  }
-  const color = SCORE_COLORS[parish.priorityLevel] || "#64748b";
-  const sel = selected ? " gap-map-marker--scored-selected" : "";
-  return L.divIcon({
-    className: `gap-map-marker gap-map-marker--scored${sel}`,
-    html: `<span class="gap-map-dot-scored" style="background:${color};box-shadow:0 3px 14px rgba(0,0,0,0.22),0 0 0 2px ${color}66,0 0 20px ${color}44;"></span>`,
-    iconSize: [36, 36],
-    iconAnchor: [18, 18],
-    popupAnchor: [0, -14]
-  });
-}
-
-function LaMapBounds() {
-  const map = useMap();
-  useEffect(() => {
-    map.fitBounds(
-      [
-        [28.82, -94.25],
-        [33.05, -88.72]
-      ],
-      { padding: [32, 32] }
-    );
-  }, [map]);
-  return null;
-}
+import { SCORE_COLORS, createParishMarkerIcon } from "../utils/parishMarkers";
+import LaMapBounds from "./LaMapBounds";
 
 function GapMap({ parishes, selectedParishId, onSelectParish }) {
   return (
@@ -90,7 +50,7 @@ function GapMap({ parishes, selectedParishId, onSelectParish }) {
             <Marker
               key={parish.id}
               position={parish.coordinates}
-              icon={markerIcon(parish, selected)}
+              icon={createParishMarkerIcon(parish, selected)}
               eventHandlers={{ click: () => onSelectParish(parish.id) }}
             >
               <Popup>

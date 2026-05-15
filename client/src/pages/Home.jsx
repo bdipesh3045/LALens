@@ -7,6 +7,7 @@ import BrandLogo from "../components/BrandLogo";
 import HomeNavbar from "../components/HomeNavbar";
 import HomeFooter from "../components/HomeFooter";
 import HomeStepper from "../components/HomeStepper";
+import HomeHeroMap from "../components/HomeHeroMap";
 import HomePlanningCard from "../components/HomePlanningCard";
 import HomeMetricCard from "../components/HomeMetricCard";
 import HomeChartsPreview from "../components/HomeChartsPreview";
@@ -44,16 +45,51 @@ function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
           >
-            <span className="home-hero-line">Find where Louisiana</span>
-            <span className="home-hero-line">education needs</span>
+            <span className="home-hero-line">Find gaps. Build better</span>
             <span className="home-hero-line">
-              <span className="home-gradient-investment">investment.</span>
-            </span>
-            <span className="home-hero-line">Build pathways that</span>
-            <span className="home-hero-line">
-              match <span className="home-gradient-opportunity">opportunity.</span>
+            <span className="home-gradient-opportunity">pathways.</span>
             </span>
           </motion.h1>
+
+          <motion.div
+            className="home-hero-stepper-wrap"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.06, type: "spring", stiffness: 280, damping: 28 }}
+          >
+            <HomeStepper />
+          </motion.div>
+
+          <section className="home-metrics-row home-hero-metrics" aria-label="Key metrics">
+            {[
+              { value: String(homeStats.mapped), label: "Parishes mapped", accent: "lavender" },
+              { value: String(homeStats.sampleMetrics), label: "Sample metrics", accent: "orange" },
+              { value: "5", label: "Score factors", accent: "blue" },
+              { value: "1", label: "Decision model", accent: "green" }
+            ].map((card, i) => (
+              <motion.div
+                key={card.label}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.07 + i * 0.05, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <HomeMetricCard value={card.value} label={card.label} accent={card.accent} />
+              </motion.div>
+            ))}
+          </section>
+
+          <motion.div
+            className="home-hero-map-shell"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 26 }}
+          >
+            <HomeHeroMap />
+          </motion.div>
+
+          <p className="tiny muted home-map-note home-hero-map-note">
+            The prototype maps all Louisiana parishes and demonstrates scoring with an initial sample dataset.
+          </p>
 
           <motion.p
             className="home-hero-body"
@@ -79,31 +115,43 @@ function Home() {
           </motion.div>
         </section>
 
-        <HomeStepper />
-
-        <div className="home-planning-wrap">
+        <motion.div
+          className="home-planning-wrap"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
           <HomePlanningCard />
-        </div>
+        </motion.div>
 
-        <section className="home-metrics-row" aria-label="Key metrics">
-          <HomeMetricCard value={String(homeStats.mapped)} label="Parishes mapped" accent="lavender" />
-          <HomeMetricCard value={String(homeStats.sampleMetrics)} label="Sample metrics" accent="orange" />
-          <HomeMetricCard value="5" label="Score factors" accent="blue" />
-          <HomeMetricCard value="1" label="Decision model" accent="green" />
-        </section>
-        <p className="tiny muted home-map-note" style={{ textAlign: "center", maxWidth: "52rem", margin: "-0.5rem auto 0" }}>
-          The prototype maps all Louisiana parishes and demonstrates scoring with an initial sample dataset.
-        </p>
-
-        <HomeChartsPreview />
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+        >
+          <HomeChartsPreview />
+        </motion.div>
 
         <section className="home-features-section">
-          <h2 className="home-section-title home-section-title-center">Three tools. One investment decision.</h2>
+          <motion.h2
+            className="home-section-title home-section-title-center"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.4 }}
+          >
+            Three tools. One investment decision.
+          </motion.h2>
           <div className="home-feature-grid">
             <motion.article
               className="home-feature-card"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: 0 }}
               whileHover={{ y: -6 }}
-              transition={{ duration: 0.2 }}
             >
               <span className="home-feature-accent lavender" />
               <span className="home-feature-icon">
@@ -114,8 +162,11 @@ function Home() {
             </motion.article>
             <motion.article
               className="home-feature-card"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: 0.08 }}
               whileHover={{ y: -6 }}
-              transition={{ duration: 0.2 }}
             >
               <span className="home-feature-accent pink" />
               <span className="home-feature-icon home-feature-icon--logo">
@@ -126,8 +177,11 @@ function Home() {
             </motion.article>
             <motion.article
               className="home-feature-card"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: 0.16 }}
               whileHover={{ y: -6 }}
-              transition={{ duration: 0.2 }}
             >
               <span className="home-feature-accent blue" />
               <span className="home-feature-icon">
@@ -139,13 +193,25 @@ function Home() {
           </div>
         </section>
 
-        <section className="home-steps-section">
+        <motion.section
+          className="home-steps-section"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.45 }}
+        >
           <p className="home-kicker">THREE STEPS</p>
           <h2 className="home-section-title home-section-title-center">One navigator for better education investment.</h2>
           <HomeStepCards />
-        </section>
+        </motion.section>
 
-        <section className="home-final-cta">
+        <motion.section
+          className="home-final-cta"
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
           <h2 className="home-final-title">Ready to find the next opportunity zone?</h2>
           <p className="home-final-text">
             Explore the prototype map and see how decision-ready intelligence can support education-investment conversations—starting with the 12-parish sample, with a path to full statewide integration.
@@ -158,7 +224,7 @@ function Home() {
               View Data Sources
             </Link>
           </div>
-        </section>
+        </motion.section>
       </main>
 
       <HomeFooter />
