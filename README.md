@@ -96,10 +96,20 @@ This repo includes:
    - If not detected: **Base directory** `client`, **Build command** `npm run build`, **Publish directory** `client/dist`.
 2. Clear cache and **Trigger deploy**.
 
+### After deploy (Vercel)
+
+- Push includes **`api/`** serverless routes (`POST /api/chat`, `GET /api/parishes`).
+- Set **`GROQ_API_KEY`** for **Production** and **Preview** in Vercel → Settings → Environment Variables, then redeploy.
+- Without the key, chat still works using the **rules-based** fallback.
+
+### Netlify
+
+Static hosting only in `netlify.toml` today. Chat will return **405** until you add [Netlify Functions](https://docs.netlify.com/functions/overview/) mirroring `api/` or host the Express `server/` elsewhere and set `VITE_API_URL`.
+
 ### After deploy
 
 - Home (`/`) and routes like `/platform` should load (React Router).
-- **Chat and `/api/*`** need a deployed backend or will fall back to client-side data only where implemented.
+- On **Vercel**, chat and parish API calls use same-origin `/api/*` (no `VITE_API_URL` required).
 
 ## Limitations
 
