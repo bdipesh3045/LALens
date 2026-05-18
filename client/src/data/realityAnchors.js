@@ -85,9 +85,9 @@ export const scoreFactorHelp = {
 
 export const dataStatusRows = [
   { layer: "Louisiana parishes", status: "Mapped", usedFor: "Gap Map geography" },
+  { layer: "Census demographics (ACS 5-Year)", status: "Live public API proof", usedFor: "Poverty, income, population, transportation-access context" },
   { layer: "LDOE performance / graduation", status: "Public-source reference", usedFor: "Student need context" },
   { layer: "LDOE enrollment", status: "Integration target", usedFor: "Enrollment pressure" },
-  { layer: "Census ACS / QuickFacts", status: "Public-source reference", usedFor: "Poverty and demographics" },
   { layer: "LWC workforce projections", status: "Public-source reference", usedFor: "Workforce gap" },
   { layer: "NCES school geocodes", status: "Integration target", usedFor: "School map layer" },
   { layer: "Pathway inventory", status: "Future integration", usedFor: "Pathway access" }

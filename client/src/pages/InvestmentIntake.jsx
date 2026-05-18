@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -12,10 +12,7 @@ import {
   Check,
   ArrowRight,
   ArrowLeft,
-  Send,
   ShieldCheck,
-  Sparkles,
-  Loader2,
   Landmark,
   School,
   Wrench,
@@ -26,11 +23,12 @@ import {
   INTAKE_ROLES,
   INTAKE_BUDGETS,
   INTAKE_FOCUS,
-  matchSchools
-} from "../utils/investmentMatch";
-import SourceBadge from "../components/SourceBadge";
+  rankInvestmentMatches,
+  generateInvestmentBrief
+} from "../utils/investmentMatching";
 import IntakeMatchLoader from "../components/IntakeMatchLoader";
 import IntakeChoiceGrid from "../components/IntakeChoiceGrid";
+import InvestmentBrief from "../components/InvestmentBrief";
 
 const ROLE_ICONS = {
   briefcase: Briefcase,
@@ -70,16 +68,22 @@ function IntakeStepper({ step }) {
 }
 
 function InvestmentIntake() {
-  const [step, setStep] = useState(1);
-  const [role, setRole] = useState("");
-  const [budget, setBudget] = useState("");
-  const [focus, setFocus] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [step, setStep]       = useState(1);
+  const [role, setRole]       = useState("");
+  const [budget, setBudget]   = useState("");
+  const [focus, setFocus]     = useState("");
+
+  const profile = useMemo(() => ({ role, budget, focus }), [role, budget, focus]);
 
   const matches = useMemo(() => {
     if (!role || !budget || !focus) return [];
-    return matchSchools({ role, budget, focus });
-  }, [role, budget, focus]);
+    return rankInvestmentMatches(profile);
+  }, [role, budget, focus, profile]);
+
+  const brief = useMemo(() => {
+    if (!matches.length) return null;
+    return generateInvestmentBrief(profile, matches);
+  }, [profile, matches]);
 
   const roleItems = useMemo(
     () =>
@@ -110,8 +114,7 @@ function InvestmentIntake() {
     []
   );
 
-  const canContinue =
-    (step === 1 && role) || (step === 2 && budget) || (step === 3 && focus);
+  const canContinue = (step === 1 && role) || (step === 2 && budget) || (step === 3 && focus);
 
   const goNext = () => {
     if (step < 3) setStep((s) => s + 1);
@@ -123,17 +126,8 @@ function InvestmentIntake() {
     else if (step > 1 && step !== 4) setStep((s) => s - 1);
   };
 
-  const handleMatchingComplete = useCallback(() => {
-    setStep(5);
-  }, []);
-
-  const handleSubmit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    await new Promise((r) => window.setTimeout(r, 900));
-    setSubmitting(false);
-    setStep(6);
-  };
+  const handleMatchingComplete = useCallback(() => setStep(5), []);
+  const handleRecordInterest   = useCallback(() => setStep(6), []);
 
   const header = (
     <header className="intake-header">
@@ -142,6 +136,7 @@ function InvestmentIntake() {
     </header>
   );
 
+  // ── Step 6: confirmation ────────────────────────────────────────────────
   if (step === 6) {
     return (
       <main className="intake-page">
@@ -159,12 +154,12 @@ function InvestmentIntake() {
             This is a decision preview. In a production deployment, your profile would route to district or operator partners for follow-up.
           </p>
           <div className="intake-status-card">
-            <h2>Your sample K-12 matches</h2>
+            <h2>Your investment brief summary</h2>
             <p className="tiny muted">Demo workflow. Not a live funding commitment.</p>
             <div className="intake-status-grid">
               <div className="intake-status-tile pending">
                 <strong>{matches.length}</strong>
-                <span>Queued</span>
+                <span>Matched</span>
               </div>
               <div className="intake-status-tile">
                 <strong>0</strong>
@@ -178,17 +173,18 @@ function InvestmentIntake() {
           </div>
           <div className="intake-actions">
             <Link to="/platform" className="btn btn-secondary">
-              Back to dashboard
-            </Link>
-            <Link to="/platform" className="btn btn-primary">
               Explore parishes
             </Link>
+            <button type="button" className="btn btn-secondary" onClick={() => setStep(5)}>
+              Back to brief
+            </button>
           </div>
         </motion.div>
       </main>
     );
   }
 
+  // ── Step 4: loading animation ───────────────────────────────────────────
   if (step === 4) {
     return (
       <main className="intake-page">
@@ -201,119 +197,21 @@ function InvestmentIntake() {
     );
   }
 
+  // ── Step 5: Investment Brief ────────────────────────────────────────────
   if (step === 5) {
     return (
-      <main className="intake-page">
+      <main className="intake-page brief-page">
         {header}
-        <motion.div
-          className="intake-card intake-card--wide"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <span className="intake-matches-ready">
-            <Sparkles size={14} aria-hidden />
-            Matches ready
-          </span>
-          <h1>Your recommended investment matches</h1>
-          <p className="intake-lead">
-            Ranked from LALens parish signals, need indicators, and pathway fit. Ranges are demo estimates, not official LDOE funding figures.
-          </p>
-          <ul className="intake-match-list">
-            {matches.map((s, i) => (
-              <motion.li
-                key={s.id}
-                className="intake-match-card"
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + i * 0.08 }}
-              >
-                <motion.div className="intake-match-main">
-                  <div className="intake-match-title-row">
-                    <h3>{s.name}</h3>
-                    <span className={`intake-match-pct${s.matchPct >= 88 ? " high" : ""}`}>{s.matchPct}% match</span>
-                    <SourceBadge type="demo" label="Demo estimate" />
-                  </div>
-                  <p className="tiny muted">
-                    {s.parishName} Parish · {s.type}
-                  </p>
-                  <p className="intake-match-stat">{s.needSignal}</p>
-                  <p className="intake-match-why">{s.whyMatch}</p>
-                  <div className="intake-program-tags">
-                    {s.programs.map((p) => (
-                      <span key={p} className="intake-program-tag">
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-                <div className="intake-match-funding">
-                  <strong>{s.investmentRange}</strong>
-                  <span className="tiny muted">Indicative range</span>
-                  <span className="tiny muted">{s.budgetFit}</span>
-                </div>
-              </motion.li>
-            ))}
-          </ul>
-
-          <div className="intake-submit-panel">
-            <motion.div
-              className="intake-submit-panel-inner"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-            >
-              <div className="intake-submit-top">
-                <motion.div className="intake-submit-summary">
-                  <span className="intake-submit-count" aria-hidden>
-                    {matches.length}
-                  </span>
-                  <div>
-                    <strong>Ready to record your interest?</strong>
-                    <p>Your profile will be queued for all {matches.length} matched schools in this demo.</p>
-                  </div>
-                </motion.div>
-                <ul className="intake-submit-schools" aria-label="Matched schools">
-                  {matches.map((s) => (
-                    <li key={s.id} title={s.name}>
-                      {s.name.split(" ").slice(0, 2).join(" ")}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <button
-                type="button"
-                className={`intake-submit-btn${submitting ? " is-loading" : ""}`}
-                onClick={handleSubmit}
-                disabled={submitting}
-                aria-busy={submitting}
-              >
-                <span className="intake-submit-btn-text">
-                  {submitting ? "Recording interest…" : `Record interest · ${matches.length} schools`}
-                </span>
-                <span className="intake-submit-btn-icon" aria-hidden>
-                  {submitting ? <Loader2 size={20} className="spin" /> : <Send size={20} />}
-                </span>
-              </button>
-
-              <div className="intake-submit-footer">
-                <button type="button" className="intake-submit-link" onClick={() => setStep(3)}>
-                  Refine my profile
-                </button>
-                <span className="intake-submit-divider" aria-hidden />
-                <span className="intake-submit-disclaimer">
-                  <ShieldCheck size={12} aria-hidden />
-                  Demo only. Not a funding commitment.
-                </span>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+        <InvestmentBrief
+          brief={brief}
+          onRecordInterest={handleRecordInterest}
+          onBack={() => setStep(3)}
+        />
       </main>
     );
   }
 
+  // ── Steps 1–3: intake form ──────────────────────────────────────────────
   return (
     <main className="intake-page">
       {header}
@@ -349,7 +247,9 @@ function InvestmentIntake() {
                 <h1>
                   What is your <span className="intake-gradient-text">investment capacity</span>?
                 </h1>
-                <p className="intake-lead">We use this to suggest program scale, from classroom grants through multi-site partnerships.</p>
+                <p className="intake-lead">
+                  We use this to suggest program scale, from classroom grants through multi-site partnerships.
+                </p>
                 <p className="intake-field-label">Annual giving range</p>
                 <IntakeChoiceGrid items={budgetItems} value={budget} onChange={setBudget} columns={3} />
               </>
@@ -360,7 +260,9 @@ function InvestmentIntake() {
                 <h1>
                   What <span className="intake-gradient-text">focus area</span> matters most?
                 </h1>
-                <p className="intake-lead">Choose the education lever you want to align with workforce and student-need signals.</p>
+                <p className="intake-lead">
+                  Choose the education lever you want to align with workforce and student-need signals.
+                </p>
                 <p className="intake-field-label">K-12 focus</p>
                 <IntakeChoiceGrid items={focusItems} value={focus} onChange={setFocus} columns={3} />
               </>
@@ -389,7 +291,7 @@ function InvestmentIntake() {
 
         <p className="intake-footnote">
           <ShieldCheck size={14} aria-hidden />
-          Matches combine public-source references with model estimates in the 12-parish sample. Not an official state allocation tool.
+          Matches combine public-source references with prototype model estimates in the 12-parish sample. Not an official state allocation tool.
         </p>
       </motion.div>
     </main>

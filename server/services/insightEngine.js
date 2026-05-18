@@ -123,10 +123,10 @@ export async function generateInsight({ message, selectedParish, parishes, histo
     answer = `${catalogNote(total, metricN)} Within the current sample, prioritize parishes where student need and workforce gap are both elevated. ${top3.map((p) => p.name.replace(" Parish", "")).join(", ")} rise in the prototype because their score drivers combine academic need, pathway access gaps, and workforce alignment. This is a model estimate, not an official state ranking. Confidence: Medium within sample.`;
     confidence = "Medium";
     sources.push("Model estimate");
-  } else if (/\breal data\b|\bofficial data\b|\bis this real\b/.test(msg)) {
-    answer = `${catalogNote(total, metricN)} LALens combines public-source facts with prototype scoring. Some statewide indicators reference LDOE, Census, and Louisiana Workforce Commission public reporting. Parish scores and school matches are model estimates until full official datasets are connected in-product. Confidence: Medium.`;
+  } else if (/\breal data\b|\bofficial data\b|\bis (the )?data real\b|\breal\b/.test(msg)) {
+    answer = `LALens currently uses live public Census demographic data for all 64 Louisiana parishes, plus prototype model estimates for scoring and investment matching. Official LDOE, NCES, BLS, and Louisiana Workforce Commission integrations are part of the roadmap. The Census figures (population, poverty rate, median income, transportation access) are drawn directly from the U.S. Census Bureau ACS 5-Year public API (2023). Opportunity Scores remain prototype model estimates. Confidence: High for Census demographics; Medium for Opportunity Scores.`;
     confidence = "Medium";
-    sources.push("LDOE public reference", "Census public reference", "LWC public reference", "Model estimate");
+    sources.push("U.S. Census Bureau ACS 5-Year (live public API)", "LDOE public reference", "LWC public reference", "Prototype model estimate");
   } else if (selectedParish && !selectedParish.hasMetrics) {
     answer = `${catalogNote(total, metricN)} ${selectedParish.name} is mapped, but detailed scoring is pending. To score it, LALens needs LDOE performance and enrollment files, Census ACS indicators, Louisiana Workforce Commission projections, NCES school geocodes, and a pathway inventory aligned to local demand. Confidence: Not Available for scoring.`;
     confidence = "Not Available";

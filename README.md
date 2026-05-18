@@ -111,7 +111,35 @@ Static hosting only in `netlify.toml` today. Chat will return **405** until you 
 - Home (`/`) and routes like `/platform` should load (React Router).
 - On **Vercel**, chat and parish API calls use same-origin `/api/*` (no `VITE_API_URL` required).
 
+## Firebase (optional)
+
+LALens supports optional Google sign-in and Firestore cloud save for investment briefs.
+
+| Behavior | Without Firebase | With Firebase |
+|---|---|---|
+| Map and AI assistant | Fully functional | Fully functional |
+| Investment Intake | Fully functional | Fully functional |
+| Brief local save / download | Works | Works |
+| Google sign-in | Not shown | Available |
+| Cloud save to Firestore | Not shown | Available when signed in |
+
+**Setup:**
+1. Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com).
+2. Enable **Google sign-in** (Authentication → Sign-in methods).
+3. Enable **Firestore** (Firestore Database → Create database).
+4. Deploy `firestore.rules` from the project root.
+5. Copy `.env.example` to `.env` and fill in the `VITE_FIREBASE_*` values.
+6. Restart the dev server.
+
+**Security:**
+- Firestore rules (`firestore.rules`) enforce user-owned documents only.
+- Do **not** commit `.env` files. Only `.env.example` (with empty values) belongs in the repo.
+- If Firebase env vars are missing, cloud save is hidden — the app does not crash.
+
+**Data honesty:** Saved briefs are prototype decision-support outputs. They combine public-source references with model estimates and must be verified before real funding decisions.
+
 ## Limitations
 
 - Sample data and demo narratives are **not** official LDOE, LWC, or statewide calculations.  
 - No proof of program **causal** impact; use for prioritization conversations and further validation only.
+- Firebase features are additive and optional; sign-in is never required to use any core feature.

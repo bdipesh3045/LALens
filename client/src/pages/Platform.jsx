@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Search, GraduationCap } from "lucide-react";
 import { getFilteredParishes } from "../utils/filters";
 import {
@@ -16,10 +16,12 @@ import BrandLogo from "../components/BrandLogo";
 import PlatformKpiStrip from "../components/PlatformKpiStrip";
 import ParishDetailPanel from "../components/ParishDetailPanel";
 import PriorityInvestmentTable from "../components/PriorityInvestmentTable";
+import PublicDataProofCard from "../components/PublicDataProofCard";
 
 const initialFilters = { coverage: "All", priority: "All", region: "All", workforce: "All" };
 
 function Platform() {
+  const [searchParams] = useSearchParams();
   const [parishes, setParishes] = useState([]);
   const [selectedParishId, setSelectedParishId] = useState("");
   const [filters, setFilters] = useState(initialFilters);
@@ -32,15 +34,25 @@ function Platform() {
         const res = await fetch(`${base}/api/parishes`);
         const data = await res.json();
         setParishes(data);
-        const firstScored = data.find((p) => p.hasMetrics && typeof p.opportunityScore === "number");
-        setSelectedParishId(firstScored?.id || data[0]?.id);
+        const parishFromUrl = searchParams.get("parish");
+        if (parishFromUrl && data.find((p) => p.id === parishFromUrl)) {
+          setSelectedParishId(parishFromUrl);
+        } else {
+          const firstScored = data.find((p) => p.hasMetrics && typeof p.opportunityScore === "number");
+          setSelectedParishId(firstScored?.id || data[0]?.id);
+        }
       } catch {
         setParishes(localParishes);
-        const firstScored = localParishes.find((p) => p.hasMetrics && typeof p.opportunityScore === "number");
-        setSelectedParishId(firstScored?.id || localParishes[0]?.id);
+        const parishFromUrl = searchParams.get("parish");
+        if (parishFromUrl && localParishes.find((p) => p.id === parishFromUrl)) {
+          setSelectedParishId(parishFromUrl);
+        } else {
+          const firstScored = localParishes.find((p) => p.hasMetrics && typeof p.opportunityScore === "number");
+          setSelectedParishId(firstScored?.id || localParishes[0]?.id);
+        }
       }
     })();
-  }, []);
+  }, [searchParams]);
 
   const filtered = useMemo(() => getFilteredParishes(parishes, filters, search), [parishes, filters, search]);
   const selectedParish = useMemo(() => parishes.find((p) => p.id === selectedParishId), [parishes, selectedParishId]);
@@ -69,8 +81,9 @@ function Platform() {
               Gap map, <span className="app-gradient-text">dashboard</span>, and insight engine
             </h1>
             <p className="app-page-lead platform-hero-lead">
-              Explore all {TOTAL_LA_PARISH_COUNT} Louisiana parishes. Scores use a {SAMPLE_METRIC_COUNT}-parish sample
-              model and expand as official datasets connect.
+              Explore all {TOTAL_LA_PARISH_COUNT} Louisiana parishes with live public Census demographic data.
+              Opportunity Scores use a {SAMPLE_METRIC_COUNT}-parish prototype model and expand as official datasets
+              connect.
             </p>
           </div>
         </div>
@@ -143,6 +156,34 @@ function Platform() {
 
       <PlatformKpiStrip />
 
+      {/* ── Statewide Census summary ── */}
+      <section className="card platform-census-summary" aria-label="Public Census data layer summary">
+        <div className="platform-census-summary-inner">
+          <div className="platform-census-summary-head">
+            <p className="app-page-kicker">Public Census layer</p>
+            <h2 className="platform-census-summary-title">Real demographic data for all 64 parishes</h2>
+          </div>
+          <ul className="platform-census-summary-stats">
+            <li>
+              <span className="platform-census-stat-n">64</span>
+              <span className="platform-census-stat-lbl">parish profiles available</span>
+            </li>
+            <li>
+              <span className="platform-census-stat-n">4</span>
+              <span className="platform-census-stat-lbl">demographic fields</span>
+            </li>
+          </ul>
+          <div className="platform-census-summary-meta">
+            <span className="census-badge census-badge--public">Public source</span>
+            <span className="census-badge census-badge--acs">Census ACS 5-Year</span>
+            <span className="census-badge census-badge--live">Live public API</span>
+          </div>
+          <p className="platform-census-summary-fields">
+            Fields: population · median household income · poverty rate · transportation access (no-vehicle households)
+          </p>
+        </div>
+      </section>
+
       <section id="platform-map" className="platform-workspace">
         <div className="platform-workspace-head">
           <p className="app-page-kicker">Gap map</p>
@@ -160,6 +201,8 @@ function Platform() {
 
           <aside className="platform-sidebar">
             <ParishDetailPanel parish={selectedParish} />
+
+            <PublicDataProofCard parishId={selectedParishId} />
 
             <div className="card top-list platform-top-list">
               <p className="app-page-kicker">Top opportunities</p>

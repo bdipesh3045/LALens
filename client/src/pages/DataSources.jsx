@@ -69,13 +69,15 @@ function DataSources() {
                   <td>
                     <SourceBadge
                       type={
-                        row.status.includes("Mapped")
+                        row.status.includes("Live public API")
                           ? "public"
-                          : row.status.includes("reference")
+                          : row.status.includes("Mapped")
                             ? "public"
-                            : row.status.includes("target") || row.status.includes("Future")
-                              ? "pending"
-                              : "model"
+                            : row.status.includes("reference")
+                              ? "public"
+                              : row.status.includes("target") || row.status.includes("Future")
+                                ? "pending"
+                                : "model"
                       }
                       label={row.status}
                     />
