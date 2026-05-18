@@ -38,34 +38,53 @@ export async function generateGroqInsight({ message, selectedParish, contextPari
   }
 
   try {
+    // Only send scored parishes — sending all 64 raw objects makes the payload too large
+    const scoredParishes = contextParishes
+      .filter((p) => p.hasMetrics)
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        region: p.region,
+        opportunityScore: p.opportunityScore,
+        priorityLevel: p.priorityLevel,
+        studentNeedScore: p.studentNeedScore,
+        workforceGapScore: p.workforceGapScore,
+        pathwayAccessGapScore: p.pathwayAccessGapScore,
+        feasibilityScore: p.feasibilityScore,
+        enrollmentPressureScore: p.enrollmentPressureScore,
+        proficiencyRate: p.proficiencyRate,
+        chronicAbsenteeismRate: p.chronicAbsenteeismRate,
+        topWorkforceDemand: p.topWorkforceDemand,
+        recommendedIntervention: p.recommendedIntervention,
+        confidence: p.confidence
+      }));
+
     const context = {
-      datasetCoverage: `The parishCatalog array contains ${contextParishes.length} Louisiana parishes (full map layer). Only entries with hasMetrics true carry prototype Opportunity Scores and narrative fields; others are geography-only pending official data integration.`,
+      totalParishesOnMap: contextParishes.length,
+      scoredParishCount: scoredParishes.length,
+      pendingCount: contextParishes.length - scoredParishes.length,
       focusParish: selectedParish,
-      parishCatalog: contextParishes,
-      methodology: {
-        formula: "35% Student Need + 20% Enrollment Pressure + 25% Workforce Gap + 10% Pathway Access Gap + 10% Feasibility",
-        caution: "Decision-support model only. No exact causal impact claims."
-      }
+      scoredParishes,
+      methodology: "35% Student Need + 20% Enrollment Pressure + 25% Workforce Gap + 10% Pathway Access Gap + 10% Feasibility. Prototype model estimates only."
     };
 
-    const systemPrompt = `
-You are the AI Insight Engine for LALens.
-You must answer ONLY from the JSON in the latest user message under "Grounding context". That object includes datasetCoverage, focusParish (the parish the user most likely means), and parishCatalog (all Louisiana parishes in the catalog). Do not invent statistics, parishes, source agency names not present in the JSON, or causal projections.
-Never claim, imply, or quantify exact causal impact of programs, policies, or investments (no ROI, effect sizes, or “proven outcomes” unless explicitly present in the JSON—which it is not).
-You are using a 64-parish map catalog with prototype metrics for a subset only (see hasMetrics on each record). Do not imply official statewide scoring for parishes where hasMetrics is false.
-If focusParish or the parish under discussion has hasMetrics false, do not state or imply an Opportunity Score, priority tier, or numeric metric values that are not present in that parish’s JSON. Instead explain that the parish is mapped for geography only, that detailed metrics are not yet integrated, and list the data categories still needed (LDOE performance/enrollment/attendance, Louisiana Workforce Commission projections, NCES school locations, pathway inventory) as integration next steps—not as if they are already in the dataset.
-If the user asks whether the data is real or official: answer that LALens currently uses live public Census demographic data (population, poverty rate, median household income, transportation access) for all 64 Louisiana parishes via the U.S. Census Bureau ACS 5-Year public API (2023). Opportunity Scores are prototype model estimates. Official LDOE, NCES, BLS, and Louisiana Workforce Commission integrations are on the roadmap. Label Census demographic indicators as 'Public source' and Opportunity Scores as 'Prototype model estimate.'
-For investment or ranking questions across parishes, rank or compare only entries with hasMetrics true and state explicitly that ranking is limited to parishes with prototype metrics in this build.
-If the user asks for data that is not present in the JSON, say what is missing.
-If the user names a parish, use its entry from parishCatalog. If it is missing, say so.
-If requested information is missing in the JSON, say "missing in prototype dataset" for that item.
-Keep a professional civic-tech tone. Use these exact headings:
-1. Direct answer
-2. Evidence from available data
-3. Recommendation
-4. Confidence level
-5. Limitation or caution
-`;
+    const systemPrompt = `You are Navigator, the AI insight engine for LALens — a civic-tech platform mapping education and workforce investment opportunities across all 64 Louisiana parishes.
+
+Answer using ONLY the data provided in the "Grounding context" JSON. Never invent statistics, scores, or agency claims not present in that data.
+
+Key rules:
+- Parishes where hasMetrics is false (pendingCount parishes) have NO opportunity score. Never imply one.
+- Opportunity Scores are prototype model estimates — never call them official or statewide.
+- Census data (population, income, poverty, transportation) from U.S. Census Bureau ACS 5-Year 2023 is real public data.
+- Never claim causal impact, ROI, or "proven outcomes."
+- If asked about a parish not in scoredParishes, check if it's a pending parish and say metrics aren't available yet.
+
+Tone and format:
+- Sound like a sharp, knowledgeable analyst — not a template.
+- Vary your format naturally. A simple question gets a concise direct answer. A comparison gets a clear breakdown. Don't always use the same headings.
+- Be specific — use the actual numbers from the data. Avoid generic filler.
+- Keep responses under 220 words unless a detailed multi-parish comparison genuinely requires more.
+- Close with one honest one-sentence caveat about data scope — not a whole disclaimer paragraph.`;
 
     const prior = sanitizeHistory(history);
     const userPayload = `Question: ${message}\n\nGrounding context:\n${JSON.stringify(context)}`;
@@ -78,9 +97,9 @@ Keep a professional civic-tech tone. Use these exact headings:
       },
       body: JSON.stringify({
         model: GROQ_MODEL,
-        temperature: 0.2,
-        max_tokens: 900,
-        messages: [{ role: "system", content: systemPrompt.trim() }, ...prior, { role: "user", content: userPayload }]
+        temperature: 0.55,
+        max_tokens: 700,
+        messages: [{ role: "system", content: systemPrompt }, ...prior, { role: "user", content: userPayload }]
       })
     });
 
@@ -92,14 +111,14 @@ Keep a professional civic-tech tone. Use these exact headings:
     const payload = await response.json();
     const answer = payload?.choices?.[0]?.message?.content?.trim();
     if (!answer) return null;
-    const confidence = answer.match(/Confidence level[:\s]+(.+)/i)?.[1]?.trim() || selectedParish?.confidence || "Medium";
+    const confidence = answer.match(/Confidence[:\s]+(.+)/i)?.[1]?.trim()?.split("\n")?.[0] || selectedParish?.confidence || "Medium";
 
     return {
       answer,
       sources: [
-        "Louisiana parish catalog (64 mapped, retrieved)",
-        "Sample prototype metrics subset (where hasMetrics is true, retrieved)",
-        "Opportunity score methodology (retrieved)"
+        "Louisiana parish catalog (64 parishes mapped)",
+        `Prototype metrics (${scoredParishes.length} scored parishes)`,
+        "Opportunity score methodology"
       ],
       confidence
     };

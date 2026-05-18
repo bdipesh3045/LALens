@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SendHorizontal, LoaderCircle, ShieldCheck, Bot, User } from "lucide-react";
+import { SendHorizontal, LoaderCircle, ShieldCheck, Bot, User, Sparkles } from "lucide-react";
 import BrandLogo from "./BrandLogo";
 import SourceBadge from "./SourceBadge";
 
@@ -104,8 +104,16 @@ function InsightChat({ selectedParishId }) {
         >
           {threadEmpty ? (
             <div className="insight-chat-empty">
-              <p className="insight-chat-empty-title">New conversation</p>
-              <p className="insight-chat-empty-hint">Use quick replies below or type your own message.</p>
+              <div className="insight-chat-empty-avatar" aria-hidden>
+                <Bot size={22} strokeWidth={1.75} />
+                <span className="insight-chat-empty-pulse" />
+              </div>
+              <p className="insight-chat-empty-title">Navigator ready</p>
+              <p className="insight-chat-empty-hint">Ask about any parish — workforce gaps, opportunity scores, intervention priorities, or Census data.</p>
+              <div className="insight-chat-empty-chips-hint" aria-hidden>
+                <Sparkles size={11} />
+                <span>Try a quick reply below</span>
+              </div>
             </div>
           ) : null}
           {messages.map((m, i) =>
@@ -144,8 +152,9 @@ function InsightChat({ selectedParishId }) {
               </div>
               <div className="insight-msg-stack">
                 <article className="insight-msg-bubble insight-msg-bubble--assistant insight-msg-bubble--typing">
-                  <LoaderCircle size={15} className="spin insight-typing-icon" aria-hidden />
-                  <span className="insight-typing-label">Thinking…</span>
+                  <span className="insight-typing-dots" aria-label="Thinking">
+                    <span /><span /><span />
+                  </span>
                 </article>
               </div>
             </div>
