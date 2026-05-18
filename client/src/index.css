@@ -3297,14 +3297,18 @@ body.home-page select {
   align-items: start;
 }
 
-.platform-map-main {
+.platform-map-left {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .platform-sidebar {
-  display: grid;
-  gap: 1rem;
   min-width: 0;
+  position: sticky;
+  top: 1rem;
+  align-self: start;
 }
 
 .platform-top-list {
@@ -4262,18 +4266,19 @@ body.home-page .home-dashboard-analytics .platform-chart-card h3 {
 }
 .brief-score-ring {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
 }
 .brief-score-ring svg {
-  position: absolute;
-  top: 0; left: 0;
+  display: block;
 }
 .brief-score-ring-val {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
   display: flex;
+  justify-content: center;
   align-items: baseline;
   gap: 0.08em;
   font-size: 1.9rem;
@@ -4283,6 +4288,7 @@ body.home-page .home-dashboard-analytics .platform-chart-card h3 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1;
+  white-space: nowrap;
 }
 .brief-score-ring-denom {
   font-size: 0.72rem;

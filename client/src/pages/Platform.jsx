@@ -190,16 +190,12 @@ function Platform() {
         </div>
 
         <div className="platform-map-row">
-          <div className="platform-map-main">
+          <div className="platform-map-left">
             <GapMap
               parishes={filtered.length ? filtered : parishes}
               selectedParishId={selectedParishId}
               onSelectParish={setSelectedParishId}
             />
-          </div>
-
-          <aside className="platform-sidebar">
-            <ParishDetailPanel parish={selectedParish} />
 
             <div className="card top-list platform-top-list">
               <p className="app-page-kicker">Top opportunities</p>
@@ -227,6 +223,10 @@ function Platform() {
                 )}
               </ul>
             </div>
+          </div>
+
+          <aside className="platform-sidebar">
+            <ParishDetailPanel parish={selectedParish} />
           </aside>
         </div>
       </section>
