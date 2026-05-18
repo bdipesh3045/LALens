@@ -3553,7 +3553,9 @@ body.home-page select {
 .parish-stat-tile--score.urgent .parish-stat-val { color: #14b8a6; }
 .parish-stat-tile--score.high .parish-stat-val { color: #d97706; }
 .parish-stat-tile--warn .parish-stat-val { color: #dc2626; }
-.parish-detail-block-title { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 600; color: var(--text); }
+.parish-stat-tile--muted .parish-stat-val { color: var(--muted); }
+.parish-detail-block-title { margin: 0 0 0.4rem; font-size: 0.78rem; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 0.4rem; }
+.parish-census-attr { margin: -0.25rem 0 0.25rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
 .parish-needs-list { margin: 0; padding-left: 1rem; color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
 .parish-needs-list li::marker { color: #14b8a6; }
 .parish-tag-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
@@ -4271,6 +4273,9 @@ body.home-page .home-dashboard-analytics .platform-chart-card h3 {
 }
 .brief-score-ring-val {
   position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 0.08em;
   font-size: 1.9rem;
   font-weight: 800;
   background: linear-gradient(135deg, #7c3aed, #db4fb7);
@@ -4279,12 +4284,10 @@ body.home-page .home-dashboard-analytics .platform-chart-card h3 {
   background-clip: text;
   line-height: 1;
 }
-.brief-score-ring-lbl {
-  position: absolute;
-  bottom: 10px;
-  font-size: 0.65rem;
-  color: #9ca3af;
-  font-weight: 500;
+.brief-score-ring-denom {
+  font-size: 0.72rem;
+  font-weight: 600;
+  opacity: 0.6;
 }
 .brief-top-match-detail .app-page-kicker { margin-bottom: 0.2rem; }
 .brief-top-match-name {

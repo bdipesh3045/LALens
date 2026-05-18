@@ -16,7 +16,6 @@ import BrandLogo from "../components/BrandLogo";
 import PlatformKpiStrip from "../components/PlatformKpiStrip";
 import ParishDetailPanel from "../components/ParishDetailPanel";
 import PriorityInvestmentTable from "../components/PriorityInvestmentTable";
-import PublicDataProofCard from "../components/PublicDataProofCard";
 
 const initialFilters = { coverage: "All", priority: "All", region: "All", workforce: "All" };
 
@@ -201,8 +200,6 @@ function Platform() {
 
           <aside className="platform-sidebar">
             <ParishDetailPanel parish={selectedParish} />
-
-            <PublicDataProofCard parishId={selectedParishId} />
 
             <div className="card top-list platform-top-list">
               <p className="app-page-kicker">Top opportunities</p>

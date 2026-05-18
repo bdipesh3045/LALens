@@ -1,9 +1,27 @@
+import { useEffect, useState } from "react";
 import { Users, TrendingUp, DollarSign, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getSchoolsByParishId } from "../data/schools";
 import SourceBadge from "./SourceBadge";
 
+function useCensusProfile(parishId) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (!parishId) return;
+    let cancelled = false;
+    const base = import.meta.env.VITE_API_URL || "";
+    fetch(`${base}/api/public-data/parish/${parishId}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled) setData(d); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [parishId]);
+  return data;
+}
+
 function ParishDetailPanel({ parish, onClose }) {
+  const census = useCensusProfile(parish?.id);
+
   if (!parish) {
     return (
       <aside className="parish-detail-panel parish-detail-panel--empty card">
@@ -14,10 +32,11 @@ function ParishDetailPanel({ parish, onClose }) {
   }
 
   const schools = getSchoolsByParishId(parish.id);
-  const population = parish.hasMetrics ? Math.round(180000 + (parish.studentNeedScore || 0) * 2200) : null;
-  const medianIncome = parish.hasMetrics ? Math.round(38000 + (parish.feasibilityScore || 0) * 120) : null;
   const educationGap = parish.hasMetrics ? Math.max(8, Math.round(100 - (parish.proficiencyRate || 40))) : null;
   const score = parish.hasMetrics ? parish.opportunityScore : null;
+
+  const population = census?.population ?? null;
+  const medianIncome = census?.medianHouseholdIncome ?? null;
 
   const needs = parish.hasMetrics
     ? [
@@ -40,31 +59,60 @@ function ParishDetailPanel({ parish, onClose }) {
         ) : null}
       </div>
 
+      <div className="parish-detail-stats">
+        <div className="parish-stat-tile">
+          <Users size={16} aria-hidden />
+          <span className="parish-stat-val">
+            {population !== null ? population.toLocaleString() : "—"}
+          </span>
+          <span className="parish-stat-lbl">Population</span>
+        </div>
+
+        {parish.hasMetrics ? (
+          <div className={`parish-stat-tile parish-stat-tile--score${score >= 85 ? " urgent" : score >= 70 ? " high" : ""}`}>
+            <TrendingUp size={16} aria-hidden />
+            <span className="parish-stat-val">{score}/100</span>
+            <span className="parish-stat-lbl">Opportunity</span>
+          </div>
+        ) : (
+          <div className="parish-stat-tile parish-stat-tile--muted">
+            <TrendingUp size={16} aria-hidden />
+            <span className="parish-stat-val">—</span>
+            <span className="parish-stat-lbl">Opportunity</span>
+          </div>
+        )}
+
+        <div className="parish-stat-tile">
+          <DollarSign size={16} aria-hidden />
+          <span className="parish-stat-val">
+            {medianIncome !== null ? `$${medianIncome.toLocaleString()}` : "—"}
+          </span>
+          <span className="parish-stat-lbl">Median income</span>
+        </div>
+
+        {parish.hasMetrics ? (
+          <div className="parish-stat-tile parish-stat-tile--warn">
+            <BookOpen size={16} aria-hidden />
+            <span className="parish-stat-val">{educationGap}%</span>
+            <span className="parish-stat-lbl">Education gap</span>
+          </div>
+        ) : (
+          <div className="parish-stat-tile parish-stat-tile--muted">
+            <BookOpen size={16} aria-hidden />
+            <span className="parish-stat-val">—</span>
+            <span className="parish-stat-lbl">Education gap</span>
+          </div>
+        )}
+      </div>
+
+      {census ? (
+        <p className="parish-census-attr tiny muted">
+          Population and income from U.S. Census Bureau ACS 5-Year · 2023 <SourceBadge type="public" label="Public source" />
+        </p>
+      ) : null}
+
       {parish.hasMetrics ? (
         <>
-          <div className="parish-detail-stats">
-            <div className="parish-stat-tile">
-              <Users size={16} aria-hidden />
-              <span className="parish-stat-val">{population?.toLocaleString()}</span>
-              <span className="parish-stat-lbl">Population</span>
-            </div>
-            <div className={`parish-stat-tile parish-stat-tile--score${score >= 85 ? " urgent" : score >= 70 ? " high" : ""}`}>
-              <TrendingUp size={16} aria-hidden />
-              <span className="parish-stat-val">{score}/100</span>
-              <span className="parish-stat-lbl">Opportunity</span>
-            </div>
-            <div className="parish-stat-tile">
-              <DollarSign size={16} aria-hidden />
-              <span className="parish-stat-val">${medianIncome?.toLocaleString()}</span>
-              <span className="parish-stat-lbl">Median income</span>
-            </div>
-            <div className="parish-stat-tile parish-stat-tile--warn">
-              <BookOpen size={16} aria-hidden />
-              <span className="parish-stat-val">{educationGap}%</span>
-              <span className="parish-stat-lbl">Education gap</span>
-            </div>
-          </div>
-
           <div className="parish-detail-block">
             <p className="parish-detail-block-title">Specific needs</p>
             <ul className="parish-needs-list">
@@ -123,7 +171,7 @@ function ParishDetailPanel({ parish, onClose }) {
         </>
       ) : (
         <p className="tiny muted parish-detail-pending">
-          This parish is on the map for full Louisiana coverage. Metrics and school matches will appear when LDOE and NCES feeds are connected.
+          Opportunity scores pending. Detailed scoring will appear when LDOE and NCES feeds are connected.
         </p>
       )}
     </aside>

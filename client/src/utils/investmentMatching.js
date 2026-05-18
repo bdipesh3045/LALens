@@ -381,7 +381,7 @@ export function buildBriefText(brief, email = "") {
     "-".repeat(50),
     brief.disclaimer,
     "",
-    "Source: LALens prototype · lalens.io",
+    "Source: LALens prototype · la-lens.vercel.app",
     `Exported: ${date}`
   ].filter((l) => l !== null);
 

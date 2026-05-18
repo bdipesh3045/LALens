@@ -58,8 +58,10 @@ function ScoreRing({ score, size = 96 }) {
           style={{ transition: "stroke-dashoffset 0.9s cubic-bezier(0.22,1,0.36,1)" }}
         />
       </svg>
-      <span className="brief-score-ring-val">{score}</span>
-      <span className="brief-score-ring-lbl">/ 100</span>
+      <span className="brief-score-ring-val">
+        {score}
+        <span className="brief-score-ring-denom">/100</span>
+      </span>
     </div>
   );
 }
