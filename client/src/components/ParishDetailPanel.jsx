@@ -3,19 +3,27 @@ import { Users, TrendingUp, DollarSign, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getSchoolsByParishId } from "../data/schools";
 import SourceBadge from "./SourceBadge";
+import censusLocal from "../data/censusProfiles.json";
+
+const censusLocalMap = Object.fromEntries(censusLocal.map((p) => [p.parishId, p]));
 
 function useCensusProfile(parishId) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(() => (parishId ? censusLocalMap[parishId] ?? null : null));
+
   useEffect(() => {
     if (!parishId) return;
+    // Immediately use the bundled data
+    setData(censusLocalMap[parishId] ?? null);
+    // Try to upgrade to live API data in the background
     let cancelled = false;
     const base = import.meta.env.VITE_API_URL || "";
     fetch(`${base}/api/public-data/parish/${parishId}`)
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => { if (!cancelled) setData(d); })
+      .then((d) => { if (!cancelled && d) setData(d); })
       .catch(() => {});
     return () => { cancelled = true; };
   }, [parishId]);
+
   return data;
 }
 
