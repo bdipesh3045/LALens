@@ -9,13 +9,14 @@ function HomeFooter() {
           <BrandLogo variant="footer" />
           <p className="home-footer-tagline">
             LALens uses <strong>live public Census data</strong> for all 64 parishes and a{" "}
-            <strong>12-parish prototype model</strong> for Opportunity Scores.
+            <strong>12-parish prototype</strong> for Opportunity Scores.
           </p>
         </div>
         <div className="home-footer-links">
           <Link to="/methodology">Methodology</Link>
           <Link to="/data-sources">Data Sources</Link>
           <Link to="/platform">Platform</Link>
+          <Link to="/challenge">Challenge</Link>
         </div>
       </div>
     </footer>

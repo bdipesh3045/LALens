@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "firebase": "^12.13.0",
-    "framer-motion": "^12.12.2",
+    "framer-motion": "^12.40.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.511.0",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "react-dom": "^19.2.5",
     "react-leaflet": "^5.0.0",
-    "react-router-dom": "^7.6.0",
+    "react-router-dom": "^7.15.1",
     "recharts": "^2.15.3"
   },
   "devDependencies": {

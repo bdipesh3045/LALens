@@ -71,7 +71,7 @@ function Platform() {
 
   return (
     <main className="app-page platform-page">
-      <header className="card app-page-hero platform-hero">
+      <header className="card platform-hero">
         <div className="platform-hero-top">
           <BrandLogo variant="nav" className="platform-section-logo" />
           <div>
@@ -80,9 +80,8 @@ function Platform() {
               Gap map, <span className="app-gradient-text">dashboard</span>, and insight engine
             </h1>
             <p className="app-page-lead platform-hero-lead">
-              Explore all {TOTAL_LA_PARISH_COUNT} Louisiana parishes with live public Census demographic data.
-              Opportunity Scores use a {SAMPLE_METRIC_COUNT}-parish prototype model and expand as official datasets
-              connect.
+              Browse all {TOTAL_LA_PARISH_COUNT} Louisiana parishes with live Census data.
+              Opportunity Scores use a {SAMPLE_METRIC_COUNT}-parish prototype and will expand as official datasets connect.
             </p>
           </div>
         </div>
@@ -103,9 +102,9 @@ function Platform() {
         </ul>
 
         <div className="platform-filter-row">
-          <div className="search-wrap platform-search">
-            <Search size={15} aria-hidden />
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search any parish" />
+          <div className="platform-search">
+            <Search size={16} aria-hidden />
+            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search parishes" />
           </div>
           <select
             value={filters.coverage}
@@ -155,7 +154,6 @@ function Platform() {
 
       <PlatformKpiStrip />
 
-      {/* ── Statewide Census summary ── */}
       <section className="card platform-census-summary" aria-label="Public Census data layer summary">
         <div className="platform-census-summary-inner">
           <div className="platform-census-summary-head">
@@ -165,7 +163,7 @@ function Platform() {
           <ul className="platform-census-summary-stats">
             <li>
               <span className="platform-census-stat-n">64</span>
-              <span className="platform-census-stat-lbl">parish profiles available</span>
+              <span className="platform-census-stat-lbl">parish profiles</span>
             </li>
             <li>
               <span className="platform-census-stat-n">4</span>
@@ -175,10 +173,10 @@ function Platform() {
           <div className="platform-census-summary-meta">
             <span className="census-badge census-badge--public">Public source</span>
             <span className="census-badge census-badge--acs">Census ACS 5-Year</span>
-            <span className="census-badge census-badge--live">Live public API</span>
+            <span className="census-badge census-badge--live">Live API</span>
           </div>
           <p className="platform-census-summary-fields">
-            Fields: population · median household income · poverty rate · transportation access (no-vehicle households)
+            Fields: population, median household income, poverty rate, no-vehicle households
           </p>
         </div>
       </section>

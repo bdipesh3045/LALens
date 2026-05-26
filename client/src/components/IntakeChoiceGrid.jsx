@@ -2,31 +2,30 @@ import { Check } from "lucide-react";
 
 function IntakeChoiceGrid({ items, value, onChange, columns = 2 }) {
   return (
-    <ul className={`intake-matrix intake-matrix--${columns}`} role="listbox" aria-label="Choose one option">
+    <div className="intake-choice-grid" data-columns={columns} role="listbox" aria-label="Choose one option">
       {items.map((item) => {
         const selected = value === item.id;
         return (
-          <li key={item.id} role="option" aria-selected={selected}>
-            <button
-              type="button"
-              className={`intake-tile${selected ? " selected" : ""}`}
-              onClick={() => onChange(item.id)}
-            >
-              {item.icon ? <span className="intake-tile-icon">{item.icon}</span> : null}
-              <span className="intake-tile-body">
-                <strong>{item.title}</strong>
-                {item.desc ? <span className="intake-tile-desc">{item.desc}</span> : null}
+          <button
+            key={item.id}
+            type="button"
+            role="option"
+            aria-selected={selected}
+            className={`intake-choice-btn${selected ? " selected" : ""}`}
+            onClick={() => onChange(item.id)}
+          >
+            {item.icon ? <span className="intake-choice-icon">{item.icon}</span> : null}
+            <span className="intake-choice-title">{item.title}</span>
+            {item.desc ? <span className="intake-choice-desc">{item.desc}</span> : null}
+            {selected ? (
+              <span className="intake-choice-check" aria-hidden>
+                <Check size={16} strokeWidth={2.5} />
               </span>
-              {selected ? (
-                <span className="intake-tile-check" aria-hidden>
-                  <Check size={14} strokeWidth={2.5} />
-                </span>
-              ) : null}
-            </button>
-          </li>
+            ) : null}
+          </button>
         );
       })}
-    </ul>
+    </div>
   );
 }
 

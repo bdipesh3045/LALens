@@ -5,7 +5,7 @@ import BrandLogo from "./BrandLogo";
 
 const links = [
   { to: "/platform", label: "Platform" },
-  { to: "/invest", label: "Investment intake" },
+  { to: "/invest", label: "Investment Intake" },
   { to: "/methodology", label: "Methodology" },
   { to: "/data-sources", label: "Data Sources" },
   { to: "/challenge", label: "Challenge" }
@@ -33,7 +33,7 @@ function HomeNavbar() {
           </span>
           <span className="home-brand-text">
             <span className="home-brand-title">LALens</span>
-            <span className="home-brand-sub">Education Intelligence Engine</span>
+            <span className="home-brand-sub">Louisiana Education Data</span>
           </span>
         </Link>
 
@@ -46,7 +46,7 @@ function HomeNavbar() {
         </nav>
 
         <Link to="/platform" className="home-cta home-cta--desktop">
-          Explore the Map
+          Open Map
           <ArrowRight size={16} strokeWidth={2} aria-hidden />
         </Link>
 
@@ -74,7 +74,7 @@ function HomeNavbar() {
           </NavLink>
         ))}
         <Link to="/platform" className="home-cta home-cta--mobile" onClick={() => setMenuOpen(false)}>
-          Explore the Map
+          Open Map
           <ArrowRight size={16} strokeWidth={2} aria-hidden />
         </Link>
       </nav>

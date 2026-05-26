@@ -68,10 +68,10 @@ function IntakeStepper({ step }) {
 }
 
 function InvestmentIntake() {
-  const [step, setStep]       = useState(1);
-  const [role, setRole]       = useState("");
-  const [budget, setBudget]   = useState("");
-  const [focus, setFocus]     = useState("");
+  const [step, setStep] = useState(1);
+  const [role, setRole] = useState("");
+  const [budget, setBudget] = useState("");
+  const [focus, setFocus] = useState("");
 
   const profile = useMemo(() => ({ role, budget, focus }), [role, budget, focus]);
 
@@ -127,16 +127,16 @@ function InvestmentIntake() {
   };
 
   const handleMatchingComplete = useCallback(() => setStep(5), []);
-  const handleRecordInterest   = useCallback(() => setStep(6), []);
+  const handleRecordInterest = useCallback(() => setStep(6), []);
 
   const header = (
     <header className="intake-header">
       <GraduationCap size={20} aria-hidden />
-      <span>K-12 Investment Intake</span>
+      <span>Investment Intake</span>
     </header>
   );
 
-  // ── Step 6: confirmation ────────────────────────────────────────────────
+  // Step 6: confirmation
   if (step === 6) {
     return (
       <main className="intake-page">
@@ -151,11 +151,11 @@ function InvestmentIntake() {
           </span>
           <h1>Interest recorded</h1>
           <p className="intake-lead">
-            This is a decision preview. In a production deployment, your profile would route to district or operator partners for follow-up.
+            This is a demo workflow. In production, your profile would route to district or operator partners for follow-up.
           </p>
           <div className="intake-status-card">
-            <h2>Your investment brief summary</h2>
-            <p className="tiny muted">Demo workflow. Not a live funding commitment.</p>
+            <h2>Your brief summary</h2>
+            <p className="text-muted" style={{ fontSize: "0.8125rem" }}>Demo workflow. Not a live funding commitment.</p>
             <div className="intake-status-grid">
               <div className="intake-status-tile pending">
                 <strong>{matches.length}</strong>
@@ -184,7 +184,7 @@ function InvestmentIntake() {
     );
   }
 
-  // ── Step 4: loading animation ───────────────────────────────────────────
+  // Step 4: loading animation
   if (step === 4) {
     return (
       <main className="intake-page">
@@ -197,7 +197,7 @@ function InvestmentIntake() {
     );
   }
 
-  // ── Step 5: Investment Brief ────────────────────────────────────────────
+  // Step 5: Investment Brief
   if (step === 5) {
     return (
       <main className="intake-page brief-page">
@@ -211,7 +211,7 @@ function InvestmentIntake() {
     );
   }
 
-  // ── Steps 1–3: intake form ──────────────────────────────────────────────
+  // Steps 1-3: intake form
   return (
     <main className="intake-page">
       {header}
@@ -232,12 +232,12 @@ function InvestmentIntake() {
               <>
                 <h1>
                   Match your investment to{" "}
-                  <span className="intake-gradient-text">Louisiana K-12</span> need
+                  <span className="intake-gradient-text">Louisiana schools</span>
                 </h1>
                 <p className="intake-lead">
-                  Tell us who you are and what you want to support. LALens ranks sample schools using parish opportunity signals and pathway fit.
+                  Tell us who you are and what you want to support. LALens ranks sample schools using parish signals and pathway fit.
                 </p>
-                <p className="intake-field-label">I am a…</p>
+                <p className="intake-field-label">I am a...</p>
                 <IntakeChoiceGrid items={roleItems} value={role} onChange={setRole} columns={3} />
               </>
             )}
@@ -248,7 +248,7 @@ function InvestmentIntake() {
                   What is your <span className="intake-gradient-text">investment capacity</span>?
                 </h1>
                 <p className="intake-lead">
-                  We use this to suggest program scale, from classroom grants through multi-site partnerships.
+                  We use this to suggest program scale, from classroom grants to multi-site partnerships.
                 </p>
                 <p className="intake-field-label">Annual giving range</p>
                 <IntakeChoiceGrid items={budgetItems} value={budget} onChange={setBudget} columns={3} />
@@ -272,7 +272,7 @@ function InvestmentIntake() {
 
         <div className="intake-nav">
           {step > 1 ? (
-            <button type="button" className="btn btn-secondary intake-btn-back" onClick={goBack}>
+            <button type="button" className="btn intake-btn-back" onClick={goBack}>
               <ArrowLeft size={16} aria-hidden /> Back
             </button>
           ) : (
@@ -291,7 +291,7 @@ function InvestmentIntake() {
 
         <p className="intake-footnote">
           <ShieldCheck size={14} aria-hidden />
-          Matches combine public-source references with prototype model estimates in the 12-parish sample. Not an official state allocation tool.
+          Matches use public-source references with prototype model estimates for the 12-parish sample. Not an official state allocation tool.
         </p>
       </motion.div>
     </main>

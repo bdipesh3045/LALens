@@ -4,19 +4,19 @@ const cards = [
   {
     num: "01",
     title: "Explore parishes",
-    body: "Map all 64 Louisiana parishes with statewide KPIs, opportunity scores, and a detail panel for workforce demand and local schools.",
+    body: "Browse all 64 Louisiana parishes. See KPIs, opportunity scores, and workforce demand at a glance.",
     accent: "purple"
   },
   {
     num: "02",
     title: "Prioritize schools",
-    body: "Rank institutions by workforce gap, poverty, and funding need, then drill into parish dashboards and score breakdowns.",
+    body: "Rank institutions by workforce gap, poverty, and funding need. Drill into parish dashboards.",
     accent: "orange"
   },
   {
     num: "03",
     title: "Match investment",
-    body: "Use the investment intake wizard to align your role, budget, and focus area with sample school matches.",
+    body: "Use the intake wizard to align your role, budget, and focus with sample school matches.",
     accent: "green"
   }
 ];
@@ -31,7 +31,7 @@ function HomeStepCards() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.06 }}
+          transition={{ delay: i * 0.08 }}
           whileHover={{ y: -4 }}
         >
           <span className={`home-step-badge ${c.accent}`}>{c.num}</span>

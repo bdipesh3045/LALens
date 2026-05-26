@@ -8,7 +8,7 @@ const steps = [
   { num: "03", label: "Match investment", icon: GraduationCap }
 ];
 
-const STEP_MS = 2600;
+const STEP_MS = 2800;
 
 function HomeStepper() {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -31,7 +31,7 @@ function HomeStepper() {
             className="home-stepper-track-progress"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: progress }}
-            transition={{ type: "spring", stiffness: 120, damping: 22 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
             style={{ transformOrigin: "left center" }}
           />
         </div>
@@ -41,10 +41,10 @@ function HomeStepper() {
             <motion.div
               key={step.num}
               className={`home-step-node ${active ? "active" : ""}`}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.06, type: "spring", stiffness: 380, damping: 28 }}
+              transition={{ delay: i * 0.08, type: "spring", stiffness: 320, damping: 28 }}
             >
               <span className="home-step-num">{step.num}</span>
               <div className={`home-step-circle ${active ? "active" : ""}`}>
